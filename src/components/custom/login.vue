@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex h-full gap-20 justify-between">
+  <div class="w-full flex h-full gap-12 justify-between">
     <div class="w-1/2">
       <login />
     </div>

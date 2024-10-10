@@ -4,7 +4,7 @@ import Theme from "@/components/theme/theme.vue";
 </script>
 
 <template>
-  <div>
+  <div class="h-full">
     <h1>Home</h1>
     <Button @click="$router.push({ name: 'Login' })">login</Button>
     <Theme />

@@ -15,8 +15,20 @@ const backgroundClass = computed(() => {
 </script>
 
 <template>
-  <div :class="['w-full h-full', backgroundClass]" class="min-h-max ml-10">
-    <h1>Seamless Success with Yunin Systems</h1>
+  <div :class="['w-full  ', backgroundClass]" class="py-56 ml-10">
+    <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">
+      Seamless
+    </h1>
+    <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">
+      Success
+    </h1>
+    <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">with</h1>
+    <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">
+      Yunin
+    </h1>
+    <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">
+      Systems
+    </h1>
   </div>
 </template>
 

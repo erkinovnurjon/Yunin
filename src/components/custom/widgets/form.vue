@@ -34,7 +34,14 @@ const schema = z.object({
 function onSubmit(values: Record<string, any>) {
   if (values.username === "admin" && values.password == "qwerty#123") {
     router.push("/");
-    return;
+    return toast({
+      title: "You submitted the following values:",
+      description: h(
+        "pre",
+        { class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
+        h("code", { class: "text-white" }, JSON.stringify(values, null, 2))
+      ),
+    });
   }
   toast({
     title: "You submitted the following values:",
@@ -49,7 +56,7 @@ function onSubmit(values: Record<string, any>) {
 
 <template>
   <AutoForm
-    class="space-y-6 w-2/3"
+    class="space-y-6 w-1/2"
     :schema="schema"
     :field-config="{
       password: {
