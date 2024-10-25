@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import Toaster from "@/components/ui/toast/Toaster.vue";
-//@ts-ignore
-import Sidebar from "./components/custom/sidebar/sidebar.vue";
+import { RouterView } from "vue-router";
 </script>
 
 <template>
-  <div id="App">
-    <Sidebar>
-      <router-view />
-      <Toaster />
-    </Sidebar>
+  <div>
+    <router-view />
   </div>
 </template>
