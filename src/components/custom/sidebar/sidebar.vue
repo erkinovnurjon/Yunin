@@ -1,20 +1,14 @@
 <template>
-  <div class="flex">
-    <aside
-      :class="[
-        'bg-white shadow-lg relative h-screen p-6 transition-all duration-300',
-        isSidebarOpen ? 'w-64' : 'w-20',
-      ]"
-    >
-      <div class="flex items-center justify-between mb-6">
+  <div class="w-full flex items-center">
+    <navbar class="shadow-md w-full py-1 flex items-center justify-between">
+      <div class="flex items-center justify-start">
         <div class="flex items-center">
           <img :src="Logo" alt="Yunin Logo" class="h-8 w-8 mr-2" />
-          <h1 v-if="isSidebarOpen" class="text-3xl font-bold">Yunin</h1>
+          <h1 class="text-3xl font-bold">Yunin</h1>
         </div>
         <Button
           @click="toggleSidebar"
-          class="text-gray-800 material-icons hover:bg-slate-400 animate-in transition-all bg-transparent top-6 bg-slate-300 -right-4 absolute focus:outline-none"
-          style="border-radius: 100%"
+          class="text-gray-800 material-icons hover:bg-slate-400 animate-in transition-all bg-transparent focus:outline-none"
         >
           <Icon
             icon="radix-icons:moon"
@@ -29,16 +23,26 @@
           </span>
         </Button>
       </div>
+      <div>Bankai</div>
+    </navbar>
+  </div>
+  <div class="flex">
+    <aside
+      :class="[
+        'bg-white shadow-md relative h-screen p-6 transition-all duration-300',
+        isSidebarOpen ? 'w-64' : 'w-20',
+      ]"
+    >
       <ul class="space-y-4">
-        <li v-for="item in sidebarRoutes" :key="item.name">
+        <li v-for="item in routes" :key="item.name">
           <div class="flex items-center justify-between">
             <router-link
-              :to="item.path"
+              :to="item.to"
               @click.prevent="toggleChildren(item.name)"
               class="flex items-center text-gray-800 hover:text-blue-500"
             >
               <span class="material-icons">{{ item.icon }}</span>
-              <span v-if="isSidebarOpen" class="ml-2">{{ item.title }}</span>
+              <span v-if="isSidebarOpen" class="ml-2">{{ item.name }}</span>
             </router-link>
             <span
               v-if="item.children && item.children.length && isSidebarOpen"
@@ -54,17 +58,16 @@
           >
             <li v-for="child in item.children" :key="child.name">
               <router-link
-                :to="child.path"
+                :to="child.to"
                 class="text-gray-600 hover:text-blue-500"
               >
-                {{ child.title }}
+                {{ child.name }}
               </router-link>
             </li>
           </ul>
         </li>
       </ul>
     </aside>
-
     <main class="flex-1 p-6">
       <slot></slot>
     </main>
@@ -74,31 +77,20 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Button from "@/components/ui/button/Button.vue";
-import { getSidebarRoutes } from "@/router";
 import { ChevronLeft, ChevronRight } from "lucide-vue-next";
 import Logo from "@/assets/images/logo/Logo.jpg";
+import { menus } from "./menu.ts";
 
-interface ChildRoute {
-  name: string;
-  path: string;
-  title: string;
-}
+const routes = ref(menus);
 
 const isSidebarOpen = ref(true);
-
-const sidebarRoutes = ref<any>(
-  getSidebarRoutes().map((route) => ({
-    ...route,
-    childrenVisible: false,
-  }))
-);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
 };
 
 const toggleChildren = (name: string) => {
-  const route = sidebarRoutes.value.find((item: any) => item.name === name);
+  const route = routes.value.find((item: any) => item.name === name);
   if (route) {
     route.childrenVisible = !route.childrenVisible;
   }
