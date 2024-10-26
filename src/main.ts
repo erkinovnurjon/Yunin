@@ -1,17 +1,10 @@
-import "./assets/index.css";
+import { buildApp } from "./app";
 
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import router from "./router";
-import App from "./App.vue";
-
-import ApiService from "./service/api.service";
-ApiService.setBaseUrl("lol");
-ApiService.mount401Interceptor();
-
-const app = createApp(App);
-
-app.use(createPinia());
-app.use(router);
+const { app, pinia } = buildApp();
+// @ts-ignore
+const storeInitialState = window.INITIAL_DATA;
+if (storeInitialState) {
+  pinia.state.value = storeInitialState;
+}
 
 app.mount("#app");
