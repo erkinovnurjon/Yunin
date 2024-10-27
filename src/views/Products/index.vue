@@ -19,10 +19,20 @@ const Fields = ref<ITableHeader[]>([
 const router = useRouter();
 
 const data = ref(null);
-ProductService.GetList({}).then((res: any) => {
-  data.value = res.data.rows;
+const filter = ref({
+  page: 1,
+  pageSize: 20,
+  search: "",
 });
-
+const totalRows = ref<number>(0);
+const Refresh = (page: number = 1) => {
+  filter.value.page = page;
+  ProductService.GetList(filter.value).then((res: any) => {
+    data.value = res.data.rows;
+    totalRows.value = res.data.total;
+  });
+};
+Refresh();
 const goPage = () => {
   router.push("/products/edit/0");
 };
@@ -36,6 +46,15 @@ const goPage = () => {
         <y-button @click="goPage">Qo'shish</y-button>
       </div>
     </template>
-    <y-table class="mt-6" :Fields :data="data"> </y-table>
+    <y-table
+      class="mt-6"
+      :Fields
+      :data="data"
+      :totalRows
+      :page="filter.page"
+      :pageSize="filter.pageSize"
+      @refresh="Refresh"
+    >
+    </y-table>
   </page-wrapper>
 </template>
