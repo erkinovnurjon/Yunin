@@ -1,24 +1,15 @@
 <template>
   <Card>
-    <CardHeader>
-      <slot name="header"></slot>
-    </CardHeader>
+    <slot name="header"> </slot>
     <CardContent>
       <slot />
     </CardContent>
-    <CardFooter>
-      <slot name="footer"></slot>
-    </CardFooter>
+    <slot name="footer"></slot>
   </Card>
 </template>
 
 <script setup lang="ts">
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 </script>
 
 <style scoped></style>

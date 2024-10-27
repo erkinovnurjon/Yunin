@@ -9,7 +9,8 @@ import ApiService from "./service/api.service";
  * Import Components and Make them Global
  */
 import PageWrapper from "@/components/custom/PageWrapper/index.vue";
-import Table from "@/components/custom/Table/index.vue";
+import Table from "@/components/custom/FORM/Table.vue";
+import Button from "@/components/custom/FORM/Button.vue";
 
 export const buildApp = () => {
   const baseUrl: string = import.meta.env.VITE_BASE_API_URL;
@@ -26,6 +27,7 @@ export const buildApp = () => {
    */
   app.component("page-wrapper", PageWrapper);
   app.component("y-table", Table);
+  app.component("y-button", Button);
 
   return { pinia, app, router };
 };

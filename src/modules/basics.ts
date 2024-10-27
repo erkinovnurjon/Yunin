@@ -12,3 +12,18 @@ export interface ITableHeader {
   tClass: string;
   isAmount?: boolean;
 }
+
+export interface IButton {
+  label?: string;
+  icon?: string;
+  variant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
+  size?: "default" | "icon" | "xs" | "sm" | "lg" | null | undefined;
+}

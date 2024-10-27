@@ -1,5 +1,5 @@
 <template>
-  <Table>
+  <Table class="border">
     <TableHeader>
       <TableRow>
         <template v-for="field in Fields" :key="`head-${field.key}`">
