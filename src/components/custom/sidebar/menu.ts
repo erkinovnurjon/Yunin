@@ -1,8 +1,8 @@
 import { type Menu } from "@/modules/basics";
 export const menus: Menu[] = [
   {
-    name: "Home",
-    to: "/",
+    name: "Products",
+    to: "/products",
     childrenVisible: false,
     children: [],
     icon: "",

@@ -4,7 +4,7 @@ import {
   type RouteRecordRaw,
 } from "vue-router";
 //@ts-ignore
-import Home from "@/views/Home.vue";
+import Products from "@/views/Products/index.vue";
 import Login from "@/components/custom/login/login.vue";
 //@ts-ignore
 import Overview from "@/views/Overview.vue";
@@ -16,16 +16,21 @@ import PrivacySettings from "@/views/PrivacySettings.vue";
 
 const routes: RouteRecordRaw[] = [
   {
-    path: "/home",
+    path: "/",
     component: () => import("@/components/custom/layout/index.vue"),
     children: [
       {
-        path: "/home",
-        redirect: "/",
+        path: "/",
+        redirect: "/products",
       },
       {
-        path: "/",
-        component: Home,
+        path: "/products",
+        component: Products,
+      },
+      {
+        path: "/products/edit/:id",
+        name: "ProductEdit",
+        component: () => import("@/views/Products/Edit/id.vue"),
       },
       {
         path: "/overview",
@@ -66,6 +71,7 @@ const routes: RouteRecordRaw[] = [
     name: "Login",
     component: Login,
   },
+  // { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
 const router = createRouter({
