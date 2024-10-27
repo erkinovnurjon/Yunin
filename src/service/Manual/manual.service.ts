@@ -11,4 +11,7 @@ export const ManualService = {
   GetProductColourSelectList() {
     return ApiService.get(`${baseUrl}/ProductColourSelectList`);
   },
+  GetStateSelectList() {
+    return ApiService.get(`${baseUrl}/StatusSelectList`);
+  },
 };

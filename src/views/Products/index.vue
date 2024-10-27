@@ -4,21 +4,16 @@ import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { ProductService } from "@/service/Products/products.service";
 const Fields = ref<ITableHeader[]>([
-  { key: "id", label: "id", tClass: "" },
-  { key: "acquiredPrice", label: "acquiredPrice", tClass: "", isAmount: true },
+  { key: "id", label: "Id", tClass: "" },
+  { key: "title", label: "Title", tClass: "" },
+  { key: "acquiredPrice", label: "Acquired Price", tClass: "", isAmount: true },
+  { key: "salePrice", label: "Sale Price", tClass: "", isAmount: true },
   { key: "contragent", label: "contragent", tClass: "" },
-  { key: "contragentId", label: "contragentId", tClass: "" },
+  { key: "productColour", label: "Product Colour", tClass: "" },
+  { key: "productModel", label: "Product Model", tClass: "" },
+  { key: "size", label: "Size", tClass: "" },
   { key: "description", label: "description", tClass: "" },
-  { key: "productColour", label: "productColour", tClass: "" },
-  { key: "productColourId", label: "productColourId", tClass: "" },
-  { key: "productModel", label: "productModel", tClass: "" },
-  { key: "productModelId", label: "productModelId", tClass: "" },
-  { key: "salePrice", label: "salePrice", tClass: "", isAmount: true },
-  { key: "size", label: "size", tClass: "" },
   { key: "status", label: "status", tClass: "" },
-  { key: "statusId", label: "statusId", tClass: "" },
-  { key: "thumbnailId", label: "thumbnailId", tClass: "" },
-  { key: "title", label: "title", tClass: "" },
 ]);
 
 const router = useRouter();
@@ -36,7 +31,8 @@ const goPage = () => {
 <template>
   <page-wrapper class="flex flex-col w-full py-6">
     <template #header>
-      <div class="flex justify-end gap-y-1.5 px-6">
+      <div class="flex justify-between items-center px-6">
+        <span class="text-3xl font-medium">Products</span>
         <y-button @click="goPage">Qo'shish</y-button>
       </div>
     </template>

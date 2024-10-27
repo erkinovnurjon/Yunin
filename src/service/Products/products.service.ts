@@ -12,15 +12,15 @@ export const ProductService = {
       return ApiService.get(`${baseUrl}/Get/${id}`);
     }
   },
-  Create(data: Object) {
-    return ApiService.post(`${baseUrl}/Create`, data);
-  },
   Update(data: any) {
     if (data.id) {
       return ApiService.post(`${baseUrl}/Update`, data);
     } else {
       return ApiService.post(`${baseUrl}/Create`, data);
     }
+  },
+  UploadFile(data: any) {
+    return ApiService.formData(`${baseUrl}/UploadFile`, data);
   },
   Delete(id: number | string) {
     return ApiService.post(`${baseUrl}/Delete/${id}`);
