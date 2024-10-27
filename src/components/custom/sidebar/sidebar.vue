@@ -77,13 +77,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import Button from "@/components/ui/button/Button.vue";
-import { ChevronLeft, ChevronRight } from "lucide-vue-next";
 import Logo from "@/assets/images/logo/Logo.jpg";
 import { menus } from "./menu.ts";
+import { type Menu } from "@/modules/basics";
 
-const routes = ref(menus);
-
-const isSidebarOpen = ref(true);
+const routes = ref<Menu[]>(menus);
+const isSidebarOpen = ref<boolean>(true);
 
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
