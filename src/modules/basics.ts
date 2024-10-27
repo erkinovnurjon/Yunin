@@ -5,3 +5,10 @@ export interface Menu {
   children: Menu[];
   icon: string;
 }
+
+export interface ITableHeader {
+  key: string;
+  label: string;
+  tClass: string;
+  isAmount?: boolean;
+}
