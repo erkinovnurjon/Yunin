@@ -3,7 +3,10 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { ProductService } from "@/service/Products/products.service";
-import { Edit } from "lucide-vue-next";
+import { Edit, Trash } from "lucide-vue-next";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { AxiosError } from "axios";
+
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
@@ -18,6 +21,7 @@ const Fields = ref<ITableHeader[]>([
   { key: "actions", label: "actions", tClass: "" },
 ]);
 
+const { toast } = useToast();
 const router = useRouter();
 
 const data = ref(null);
@@ -37,6 +41,41 @@ const Refresh = (page: number = 1) => {
 Refresh();
 const goPage = (id: number | string = 0) => {
   router.push(`/products/edit/${id}`);
+};
+
+const deleteDialog = ref<boolean>(false);
+const deleteItem = ref<number | string | null>(null);
+const openDeleteModal = (id: number) => {
+  deleteItem.value = id;
+  deleteDialog.value = true;
+};
+
+const onDialogClose = () => {
+  deleteItem.value = null;
+  deleteDialog.value = false;
+};
+
+const onDialogSubmit = () => {
+  if (deleteItem.value) {
+    ProductService.Delete(deleteItem.value)
+      .then(() => {
+        toast({
+          title: "Successfully Saved",
+          variant: "default",
+          duration: 1000,
+        });
+        Refresh();
+        onDialogClose();
+      })
+      .catch((error: AxiosError) => {
+        toast({
+          title: "Error on delete",
+          description: `${error}`,
+          variant: "destructive",
+          duration: 1000,
+        });
+      });
+  }
 };
 </script>
 
@@ -60,8 +99,25 @@ const goPage = (id: number | string = 0) => {
       <template #item-actions="{ item }">
         <div class="flex justify-center">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+          <Trash
+            @click="openDeleteModal(item.id)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
         </div>
       </template>
     </y-table>
+    <y-dialog
+      title="Delete Account"
+      closeLabel="Cancel"
+      submitLabel="Delete"
+      v-model:open="deleteDialog"
+      @close="onDialogClose"
+      @submit="onDialogSubmit"
+    >
+      <template #body>
+        do you want to delete product {{ deleteItem }}
+      </template>
+    </y-dialog>
   </page-wrapper>
 </template>

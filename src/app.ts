@@ -12,7 +12,7 @@ import PageWrapper from "@/components/custom/PageWrapper/index.vue";
 import Table from "@/components/custom/FORM/Table.vue";
 import Button from "@/components/custom/FORM/Button.vue";
 import Select from "@/components/custom/FORM/Select.vue";
-
+import CustomAlertDialog from "@/components/custom/Dialog/index.vue";
 export const buildApp = () => {
   const baseUrl: string = import.meta.env.VITE_BASE_API_URL;
   ApiService.setBaseUrl(baseUrl);
@@ -30,6 +30,7 @@ export const buildApp = () => {
   app.component("y-table", Table);
   app.component("y-button", Button);
   app.component("y-select", Select);
+  app.component("y-dialog", CustomAlertDialog);
 
   return { pinia, app, router };
 };
