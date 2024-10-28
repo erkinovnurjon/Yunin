@@ -3,6 +3,7 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { ProductService } from "@/service/Products/products.service";
+import { Edit } from "lucide-vue-next";
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
@@ -14,6 +15,7 @@ const Fields = ref<ITableHeader[]>([
   { key: "size", label: "Size", tClass: "" },
   { key: "description", label: "description", tClass: "" },
   { key: "status", label: "status", tClass: "" },
+  { key: "actions", label: "actions", tClass: "" },
 ]);
 
 const router = useRouter();
@@ -33,8 +35,8 @@ const Refresh = (page: number = 1) => {
   });
 };
 Refresh();
-const goPage = () => {
-  router.push("/products/edit/0");
+const goPage = (id: number | string = 0) => {
+  router.push(`/products/edit/${id}`);
 };
 </script>
 
@@ -43,7 +45,7 @@ const goPage = () => {
     <template #header>
       <div class="flex justify-between items-center px-6">
         <span class="text-3xl font-medium">Products</span>
-        <y-button @click="goPage">Qo'shish</y-button>
+        <y-button @click="goPage(0)">Qo'shish</y-button>
       </div>
     </template>
     <y-table
@@ -55,6 +57,11 @@ const goPage = () => {
       :pageSize="filter.pageSize"
       @refresh="Refresh"
     >
+      <template #item-actions="{ item }">
+        <div class="flex justify-center">
+          <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+        </div>
+      </template>
     </y-table>
   </page-wrapper>
 </template>

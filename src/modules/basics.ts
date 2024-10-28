@@ -29,6 +29,7 @@ export interface IButton {
 }
 
 export interface IProduct {
+  id: number | null;
   title: string;
   description: string;
   thumbnailId: any;

@@ -104,7 +104,12 @@
             alt="Product image"
             class="aspect-square w-full rounded-md object-cover"
             height="300"
-            :src="imageSrc"
+            :src="
+              product.id
+                ? baseURL + `Product/DownloadFile/${product.thumbnailId}`
+                : imageSrc
+            "
+            ref="imageSrc"
             width="300"
           />
           <!-- Hidden file input for image upload -->
@@ -137,14 +142,17 @@ import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
 import { ManualService } from "@/service/Manual/manual.service";
 import { ProductService } from "@/service/Products/products.service";
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import { useToast } from "@/components/ui/toast/use-toast";
 import placeholderImage from "../../../assets/images/placeholder.svg";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
+const baseURL = import.meta.env.VITE_BASE_API_URL;
 const { toast } = useToast();
 const router = useRouter();
+const route = useRoute();
 const product = ref<IProduct>({
+  id: null,
   title: "",
   description: "",
   thumbnailId: "",
@@ -156,6 +164,7 @@ const product = ref<IProduct>({
   productColourId: null,
   contragentId: null,
 });
+
 const contragentList = ref<ISelect[]>([]);
 function GetContragentSelectList() {
   ManualService.GetContragentSelectList().then((res: AxiosResponse) => {
@@ -218,7 +227,7 @@ async function uploadImage(file: File) {
     console.error("Image upload failed", error);
   }
 }
-
+// Save Product Function
 function SaveProduct() {
   if (
     product.value.title &&
@@ -226,6 +235,11 @@ function SaveProduct() {
     product.value.thumbnailId
   ) {
     ProductService.Update(product.value).then((res: AxiosResponse) => {
+      toast({
+        title: "Successfully Saved",
+        variant: "default",
+        duration: 1000,
+      });
       router.push("/products");
     });
   } else {
@@ -235,6 +249,20 @@ function SaveProduct() {
       variant: "destructive",
     });
   }
+}
+
+if (+route.params.id > 0) {
+  ProductService.Get(+route.params.id)
+    .then((res: AxiosResponse) => {
+      product.value = res.data;
+    })
+    .catch((e: AxiosError) => {
+      toast({
+        title: `Error GetRequest`,
+        description: `${e}`,
+        variant: "destructive",
+      });
+    });
 }
 </script>
 

@@ -22,6 +22,9 @@ export const ProductService = {
   UploadFile(data: any) {
     return ApiService.formData(`${baseUrl}/UploadFile`, data);
   },
+  DownloadFile(fileId: string) {
+    return ApiService.get(`${baseUrl}/DownloadFile/${fileId}`);
+  },
   Delete(id: number | string) {
     return ApiService.post(`${baseUrl}/Delete/${id}`);
   },
