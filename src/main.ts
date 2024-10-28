@@ -1,3 +1,4 @@
+// @ts-ignore
 import { buildApp } from "./app";
 
 const { app, pinia } = buildApp();
