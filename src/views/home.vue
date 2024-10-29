@@ -1,3 +1,7 @@
+<script setup lang="ts"></script>
+
 <template>
-  <page-wrapper class="flex flex-col w-full py-6"> Home </page-wrapper>
+  <div>Home</div>
 </template>
+
+<style scoped></style>

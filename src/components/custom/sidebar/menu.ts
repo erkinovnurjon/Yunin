@@ -1,6 +1,5 @@
-// menu.ts
 import { type Menu } from "@/modules/basics";
-import { Bell, CircleUser, Home, Package } from "lucide-vue-next";
+import { Home, Package, Package2 } from "lucide-vue-next";
 
 export const menus: Menu[] = [
   {
@@ -8,13 +7,13 @@ export const menus: Menu[] = [
     to: "/products",
     childrenVisible: false,
     children: [],
-    icon: Package,
+    icon: Package2,
   },
   {
     name: "Overview",
     to: "/overview",
     childrenVisible: false,
     children: [],
-    icon: Home,
+    icon: Package,
   },
 ];

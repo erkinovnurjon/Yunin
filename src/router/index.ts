@@ -3,16 +3,10 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
-//@ts-ignore
 import Products from "@/views/Products/index.vue";
 import Login from "@/components/custom/login/login.vue";
-//@ts-ignore
 import Overview from "@/views/Overview.vue";
 import Settings from "@/views/settings.vue";
-import Analytics from "@/views/Analytics.vue";
-import Reports from "@/views/Reports.vue";
-import GeneralSettings from "@/views/GeneralSettings.vue";
-import PrivacySettings from "@/views/PrivacySettings.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -20,8 +14,8 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/components/custom/layout/index.vue"),
     children: [
       {
-        path: "/",
-        redirect: "/products",
+        path: "/home",
+        redirect: "/home",
       },
       {
         path: "/products",
@@ -41,28 +35,6 @@ const routes: RouteRecordRaw[] = [
         path: "settings",
         name: "Settings",
         component: Settings,
-        children: [
-          {
-            path: "general",
-            name: "GeneralSettings",
-            component: GeneralSettings,
-          },
-          {
-            path: "privacy",
-            name: "PrivacySettings",
-            component: PrivacySettings,
-          },
-        ],
-      },
-      {
-        path: "reports",
-        name: "Reports",
-        component: Reports,
-      },
-      {
-        path: "analytics",
-        name: "Analytics",
-        component: Analytics,
       },
     ],
   },
@@ -71,7 +43,6 @@ const routes: RouteRecordRaw[] = [
     name: "Login",
     component: Login,
   },
-  // { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
 ];
 
 const router = createRouter({

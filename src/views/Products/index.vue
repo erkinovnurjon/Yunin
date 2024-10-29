@@ -130,7 +130,7 @@ const tabValue = ref<number>(0);
       >
     </div>
   </div>
-  <page-wrapper class="flex flex-col w-full py-6 mt-4">
+  <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
     <template #header>
       <div class="flex justify-between items-center px-6">
         <span class="text-3xl font-medium">Products</span>
