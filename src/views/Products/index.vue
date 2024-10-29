@@ -2,9 +2,10 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
-import { ProductService } from "@/service/Products/products.service";
-import { Edit, Trash } from "lucide-vue-next";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Edit, Trash, PlusCircle, File } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
+import { ProductService } from "@/service/Products/products.service";
 import { AxiosError } from "axios";
 
 const Fields = ref<ITableHeader[]>([
@@ -43,6 +44,7 @@ const goPage = (id: number | string = 0) => {
   router.push(`/products/edit/${id}`);
 };
 
+// Dialog Block
 const deleteDialog = ref<boolean>(false);
 const deleteItem = ref<number | string | null>(null);
 const openDeleteModal = (id: number) => {
@@ -77,14 +79,34 @@ const onDialogSubmit = () => {
       });
   }
 };
+// Dialog Block
+const tabValue = ref<number>(0);
 </script>
 
 <template>
-  <page-wrapper class="flex flex-col w-full py-6">
+  <div class="flex justify-between items-center">
+    <Tabs v-model="tabValue" :default-value="0">
+      <TabsList>
+        <TabsTrigger :value="0"> All </TabsTrigger>
+        <TabsTrigger :value="1"> Active </TabsTrigger>
+        <TabsTrigger :value="1"> Draft </TabsTrigger>
+        <TabsTrigger :value="1"> Archived </TabsTrigger>
+      </TabsList>
+    </Tabs>
+    <div>
+      <y-button class="mr-2"> <PlusCircle class="mr-2" />Add Product</y-button>
+      <y-button variant="outline" class="mr-2">
+        <File class="mr-2" />Add Product</y-button
+      >
+      <y-button @click="goPage(0)"
+        ><PlusCircle class="mr-2" />Add Product</y-button
+      >
+    </div>
+  </div>
+  <page-wrapper class="flex flex-col w-full py-6 mt-4">
     <template #header>
       <div class="flex justify-between items-center px-6">
         <span class="text-3xl font-medium">Products</span>
-        <y-button @click="goPage(0)">Qo'shish</y-button>
       </div>
     </template>
     <y-table
