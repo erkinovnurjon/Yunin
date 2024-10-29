@@ -3,10 +3,18 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Edit, Trash, PlusCircle, File } from "lucide-vue-next";
+import { Edit, Trash, PlusCircle, File, ListFilter } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { ProductService } from "@/service/Products/products.service";
 import { AxiosError } from "axios";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
 
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
@@ -25,6 +33,7 @@ const Fields = ref<ITableHeader[]>([
 const { toast } = useToast();
 const router = useRouter();
 
+// Table data block
 const data = ref(null);
 const filter = ref({
   page: 1,
@@ -43,6 +52,7 @@ Refresh();
 const goPage = (id: number | string = 0) => {
   router.push(`/products/edit/${id}`);
 };
+// Table data block
 
 // Dialog Block
 const deleteDialog = ref<boolean>(false);
@@ -80,6 +90,7 @@ const onDialogSubmit = () => {
   }
 };
 // Dialog Block
+// Tab Block
 const tabValue = ref<number>(0);
 </script>
 
@@ -89,17 +100,33 @@ const tabValue = ref<number>(0);
       <TabsList>
         <TabsTrigger :value="0"> All </TabsTrigger>
         <TabsTrigger :value="1"> Active </TabsTrigger>
-        <TabsTrigger :value="1"> Draft </TabsTrigger>
-        <TabsTrigger :value="1"> Archived </TabsTrigger>
+        <TabsTrigger :value="2"> Draft </TabsTrigger>
+        <TabsTrigger :value="3"> Archived </TabsTrigger>
       </TabsList>
     </Tabs>
-    <div>
-      <y-button class="mr-2"> <PlusCircle class="mr-2" />Add Product</y-button>
-      <y-button variant="outline" class="mr-2">
-        <File class="mr-2" />Add Product</y-button
+    <div class="flex gap-2">
+      <DropdownMenu class="mr-2">
+        <DropdownMenuTrigger as-child>
+          <y-button variant="outline" size="sm" class="h-7 gap-1">
+            <ListFilter class="h-3.5 w-3.5" />
+            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">
+              Filter
+            </span>
+          </y-button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>Active</DropdownMenuItem>
+          <DropdownMenuItem>Draft</DropdownMenuItem>
+          <DropdownMenuItem>Archived</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+      <y-button size="sm" class="h-7 gap-1">
+        <File class="h-3.5 w-3.5" />Add Product</y-button
       >
-      <y-button @click="goPage(0)"
-        ><PlusCircle class="mr-2" />Add Product</y-button
+      <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
+        ><PlusCircle class="h-3.5 w-3.5" />Add Product</y-button
       >
     </div>
   </div>
