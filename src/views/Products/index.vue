@@ -16,8 +16,10 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
+const baseURL = import.meta.env.VITE_BASE_API_URL;
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
+  { key: "thumbnailId", label: "Image", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
   { key: "acquiredPrice", label: "Acquired Price", tClass: "", isAmount: true },
   { key: "salePrice", label: "Sale Price", tClass: "", isAmount: true },
@@ -95,7 +97,7 @@ const tabValue = ref<number>(0);
 </script>
 
 <template>
-  <div class="flex justify-between items-center">
+  <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
     <Tabs v-model="tabValue" :default-value="0">
       <TabsList>
         <TabsTrigger :value="0"> All </TabsTrigger>
@@ -104,7 +106,7 @@ const tabValue = ref<number>(0);
         <TabsTrigger :value="3"> Archived </TabsTrigger>
       </TabsList>
     </Tabs>
-    <div class="flex gap-2">
+    <div class="flex gap-2 mt-4 xl:mt-0">
       <DropdownMenu class="mr-2">
         <DropdownMenuTrigger as-child>
           <y-button variant="outline" size="sm" class="h-7 gap-1">
@@ -145,6 +147,14 @@ const tabValue = ref<number>(0);
       :pageSize="filter.pageSize"
       @refresh="Refresh"
     >
+      <template #item-thumbnailId="{ item }">
+        <img
+          class="aspect-square rounded-md object-cover"
+          width="64"
+          height="64"
+          :src="baseURL + `Product/DownloadFile/${item.thumbnailId}`"
+        />
+      </template>
       <template #item-actions="{ item }">
         <div class="flex justify-center">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />

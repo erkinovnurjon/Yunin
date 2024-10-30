@@ -1,10 +1,10 @@
 <template>
-  <div>
-    <Table>
+  <div class="overflow-x-auto">
+    <Table class="min-w-full">
       <TableHeader>
         <TableRow>
           <template v-for="field in Fields" :key="`head-${field.key}`">
-            <TableHead :class="`${field.tClass}`">
+            <TableHead :class="`${field.tClass} text-sm sm:text-base`">
               <slot :name="field.key" :field="field">
                 <span>
                   {{ field.label }}
@@ -35,10 +35,12 @@
         </template>
       </TableBody>
     </Table>
-    <div class="flex items-center justify-end space-x-2 py-4">
+    <div
+      class="flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 py-4"
+    >
       <div
         v-if="data && data.length > 0"
-        class="flex-1 text-sm text-muted-foreground"
+        class="text-sm text-muted-foreground text-center sm:text-left"
       >
         {{ data.length }} of {{ totalRows }} row(s) selected.
       </div>
