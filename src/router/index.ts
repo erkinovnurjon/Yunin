@@ -19,16 +19,16 @@ const routes: RouteRecordRaw[] = [
         path: "/home",
         component: Home,
       },
-      // {
-      //   name: "Products",
-      //   path: "/products",
-      //   component: Products,
-      // },
-      // {
-      //   path: "/products/edit/:id",
-      //   name: "ProductEdit",
-      //   component: () => import("@/views/Products/Edit/id.vue"),
-      // },
+      {
+        name: "Products",
+        path: "/products",
+        component: Products,
+      },
+      {
+        path: "/products/edit/:id",
+        name: "ProductEdit",
+        component: () => import("@/views/Products/Edit/id.vue"),
+      },
       {
         path: "/overview",
         name: "Overview",
