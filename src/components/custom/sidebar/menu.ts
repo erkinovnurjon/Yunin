@@ -3,6 +3,13 @@ import { Home, Package, Package2 } from "lucide-vue-next";
 
 export const menus: Menu[] = [
   {
+    name: "home",
+    to: "/home",
+    childrenVisible: false,
+    children: [],
+    icon: Home,
+  },
+  {
     name: "Products",
     to: "/products",
     childrenVisible: false,

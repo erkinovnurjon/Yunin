@@ -12,18 +12,17 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
-  BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Search } from "lucide-vue-next";
+import { Search, Bell, Package2 } from "lucide-vue-next";
 
 import { Input } from "@/components/ui/input";
 import Theme from "@/components/theme/theme.vue";
-import { Bell, Package2 } from "lucide-vue-next";
 import { type Menu } from "@/modules/basics";
 import { menus } from "./menu.ts";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import Profile from "./components/profile.vue";
+import { useRoute } from "vue-router";
 
 const routes = ref<Menu[]>(menus);
 
@@ -42,6 +41,28 @@ const toggleChildren = (name: string) => {
     route.childrenVisible = !route.childrenVisible;
   }
 };
+
+// Access the current route
+const route = useRoute();
+
+// Compute breadcrumbs based on the matched route records
+const breadcrumbs = computed(() => {
+  const matchedRoutes = route.matched.map((routeRecord) => ({
+    name: routeRecord.name,
+    path: routeRecord.path,
+  }));
+
+  // Ensure "Home" is always the first breadcrumb
+  if (matchedRoutes.length === 0 || matchedRoutes[0].name !== "Home") {
+    matchedRoutes.unshift({
+      name: "Home",
+      path: "/",
+    });
+  }
+
+  console.log("Breadcrumbs:", matchedRoutes); // Konsolga chiqarish
+  return matchedRoutes;
+});
 </script>
 
 <template>
@@ -96,6 +117,21 @@ const toggleChildren = (name: string) => {
                 {{ item.name }}
               </span>
             </router-link>
+            <!-- Sub-menyularni ko'rsatish -->
+            <div
+              v-if="item.childrenVisible && item.children.length > 0"
+              class="ml-4"
+            >
+              <router-link
+                v-for="child in item.children"
+                :key="child.name"
+                :to="child.to"
+                class="flex items-center gap-2 rounded px-2 py-1 text-muted-foreground transition-all hover:text-primary"
+              >
+                <component :is="child.icon" class="h-4 w-4" />
+                <span>{{ child.name }}</span>
+              </router-link>
+            </div>
           </nav>
         </div>
         <div class="p-4 transition-all" v-if="sidebarsettimout && sidebarOpen">
@@ -143,12 +179,14 @@ const toggleChildren = (name: string) => {
       >
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/"> Home </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Products</BreadcrumbPage>
+            <BreadcrumbItem
+              v-for="(breadcrumb, index) in breadcrumbs"
+              :key="index"
+            >
+              <BreadcrumbLink :href="breadcrumb.path">
+                {{ breadcrumb.name }}
+              </BreadcrumbLink>
+              <BreadcrumbSeparator v-if="index < breadcrumbs.length - 2" />
             </BreadcrumbItem>
           </BreadcrumbList>
         </Breadcrumb>

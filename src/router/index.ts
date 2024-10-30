@@ -7,6 +7,7 @@ import Products from "@/views/Products/index.vue";
 import Login from "@/components/custom/login/login.vue";
 import Overview from "@/views/Overview.vue";
 import Settings from "@/views/settings.vue";
+import Home from "@/views/home.vue";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -14,18 +15,20 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/components/custom/layout/index.vue"),
     children: [
       {
+        name: "Home",
         path: "/home",
-        redirect: "/home",
+        component: Home,
       },
-      {
-        path: "/products",
-        component: Products,
-      },
-      {
-        path: "/products/edit/:id",
-        name: "ProductEdit",
-        component: () => import("@/views/Products/Edit/id.vue"),
-      },
+      // {
+      //   name: "Products",
+      //   path: "/products",
+      //   component: Products,
+      // },
+      // {
+      //   path: "/products/edit/:id",
+      //   name: "ProductEdit",
+      //   component: () => import("@/views/Products/Edit/id.vue"),
+      // },
       {
         path: "/overview",
         name: "Overview",
