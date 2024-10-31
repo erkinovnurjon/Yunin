@@ -15,7 +15,7 @@ const backgroundClass = computed(() => {
 </script>
 
 <template>
-  <div :class="['w-full  ', backgroundClass]" class="py-56 ml-10">
+  <div :class="['w-full  ', backgroundClass]" class="py-48 ml-10">
     <h1 class="text-[120px] leading-[120px] font-bold ml-20 text-clip">
       Seamless
     </h1>

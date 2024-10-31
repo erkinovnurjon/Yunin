@@ -1,82 +1,38 @@
 <script setup lang="ts">
-import * as z from "zod";
-import { h } from "vue";
 import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/toast";
-import { AutoForm, AutoFormField } from "@/components/ui/auto-form";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
-
-const schema = z.object({
-  username: z
-    .string({
-      required_error: "Username is required.",
-    })
-    .min(4, {
-      message: "Username must be at least 4 characters.",
-    }),
-
-  password: z
-    .string({
-      required_error: "Password is required.",
-    })
-    .min(8, {
-      message: "Password must be at least 8 characters.",
-    }),
-
-  acceptTerms: z.boolean().refine((value) => value, {
-    message: "You must accept the terms and conditions.",
-    path: ["acceptTerms"],
-  }),
-});
-
-function onSubmit(values: Record<string, any>) {
-  if (values.username === "admin" && values.password == "qwerty#123") {
-    router.push("/");
-    return toast({
-      title: "You submitted the following values:",
-      description: h(
-        "pre",
-        { class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-        h("code", { class: "text-white" }, JSON.stringify(values, null, 2))
-      ),
-    });
-  }
-  toast({
-    title: "You submitted the following values:",
-    description: h(
-      "pre",
-      { class: "mt-2 w-[340px] rounded-md bg-slate-950 p-4" },
-      h("code", { class: "text-white" }, JSON.stringify(values, null, 2))
-    ),
-  });
-}
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 </script>
-
 <template>
-  <AutoForm
-    class="space-y-6 w-1/2"
-    :schema="schema"
-    :field-config="{
-      password: {
-        label: 'Your secure password',
-        inputProps: {
-          type: 'password',
-          placeholder: '••••••••',
-        },
-      },
-    }"
-    @submit="onSubmit"
-  >
-    <template #acceptTerms="slotProps">
-      <AutoFormField v-bind="slotProps" />
-      <div class="!mt-2 text-sm">
-        I agree to the
-        <button class="text-primary underline">terms and conditions</button>.
+  <div class="flex items-center justify-center py-12">
+    <div class="mx-auto grid w-[350px] gap-6">
+      <div class="grid gap-2 text-center">
+        <h1 class="text-3xl font-bold">Welcome Back</h1>
       </div>
-    </template>
-
-    <Button type="submit"> Submit </Button>
-  </AutoForm>
+      <div class="grid gap-4">
+        <div class="grid gap-2">
+          <Label for="email">Email</Label>
+          <Input id="email" type="email" placeholder="m@example.com" required />
+        </div>
+        <div class="grid gap-2">
+          <div class="flex items-center">
+            <Label for="password">Password</Label>
+            <a
+              href="/forgot-password"
+              class="ml-auto inline-block text-sm underline"
+            >
+              Forgot your password?
+            </a>
+          </div>
+          <Input id="password" type="password" required />
+        </div>
+        <Button type="submit" class="w-full"> Login </Button>
+        <Button variant="outline" class="w-full"> Login with Google </Button>
+      </div>
+      <div class="mt-4 text-center text-sm">
+        Don't have an account?
+        <a href="#" class="underline"> Sign up </a>
+      </div>
+    </div>
+  </div>
 </template>

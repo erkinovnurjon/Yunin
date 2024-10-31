@@ -5,10 +5,7 @@ import Form from "./form.vue";
 <template>
   <div class="container ml-[200px] mt-64">
     <div>
-      <h1 class="font-bold text-[48px]">Welcome Back</h1>
-      <div>
-        <Form />
-      </div>
+      <Form />
     </div>
   </div>
 </template>
