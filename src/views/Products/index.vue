@@ -25,7 +25,7 @@ const Fields = ref<ITableHeader[]>([
   { key: "salePrice", label: "Sale Price", tClass: "", isAmount: true },
   { key: "contragent", label: "contragent", tClass: "" },
   { key: "productColour", label: "Product Colour", tClass: "" },
-  { key: "productModel", label: "Product Model", tClass: "" },
+  { key: "producttype", label: "Product Type", tClass: "" },
   { key: "size", label: "Size", tClass: "" },
   { key: "description", label: "description", tClass: "" },
   { key: "status", label: "status", tClass: "" },

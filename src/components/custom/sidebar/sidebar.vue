@@ -67,7 +67,7 @@ const breadcrumbs = computed(() => {
 
 <template>
   <div
-    class="grid min-h-screen w-full transition-all ease-in duration-300"
+    class="grid h-screen w-full transition-all ease-in duration-300"
     :class="
       sidebarOpen
         ? 'md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'
@@ -84,7 +84,7 @@ const breadcrumbs = computed(() => {
         {{ sidebarOpen ? "chevron_left" : "chevron_right" }}
       </span>
     </Button>
-    <div class="hidden border-r bg-muted/40 md:block">
+    <div class="hidden sticky border-r bg-muted/40 md:block">
       <div class="flex h-full max-h-screen flex-col gap-2">
         <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <router-link to="/" class="flex items-center gap-2 font-semibold">
