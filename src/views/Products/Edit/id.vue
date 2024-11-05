@@ -54,7 +54,7 @@
             class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
           >
             <Label for="size">Size</Label>
-            <Input id="size" type="number" v-model="product.size" />
+            <Input id="size" type="text" v-model="product.size" />
           </div>
         </div>
       </page-wrapper>
@@ -76,8 +76,8 @@
           >
             <y-select
               label="Product Model"
-              v-model="product.productModelId"
-              :data="productModelList"
+              v-model="product.productTypeId"
+              :data="productTypeList"
             />
           </div>
           <div
@@ -156,11 +156,11 @@ const product = ref<IProduct>({
   title: "",
   description: "",
   thumbnailId: "",
-  size: null,
+  size: "",
   acquiredPrice: null,
   salePrice: null,
   statusId: 1,
-  productModelId: null,
+  productTypeId: null,
   productColourId: null,
   contragentId: null,
 });
@@ -172,10 +172,10 @@ function GetContragentSelectList() {
   });
 }
 GetContragentSelectList();
-const productModelList = ref<ISelect[]>([]);
+const productTypeList = ref<ISelect[]>([]);
 function GetProductModelSelectList() {
-  ManualService.GetProductModelSelectList().then((res: AxiosResponse) => {
-    productModelList.value = res.data;
+  ManualService.GetProductTypeSelectList().then((res: AxiosResponse) => {
+    productTypeList.value = res.data;
   });
 }
 GetProductModelSelectList();

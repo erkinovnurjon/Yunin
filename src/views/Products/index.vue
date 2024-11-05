@@ -125,7 +125,7 @@ const tabValue = ref<number>(0);
         </DropdownMenuContent>
       </DropdownMenu>
       <y-button size="sm" class="h-7 gap-1">
-        <File class="h-3.5 w-3.5" />Add Product</y-button
+        <File class="h-3.5 w-3.5" />Import</y-button
       >
       <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
         ><PlusCircle class="h-3.5 w-3.5" />Add Product</y-button

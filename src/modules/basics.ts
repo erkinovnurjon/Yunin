@@ -35,10 +35,10 @@ export interface IProduct {
   title: string;
   description: string;
   thumbnailId: any;
-  size: number | string | null;
+  size: string | null;
   acquiredPrice: number | string | null;
   salePrice: number | string | null;
-  productModelId: number | string | null;
+  productTypeId: number | string | null;
   productColourId: number | string | null;
   contragentId: number | string | null;
   statusId: number | string | null;

@@ -5,8 +5,8 @@ export const ManualService = {
   GetContragentSelectList() {
     return ApiService.get(`${baseUrl}/ContragentSelectList`);
   },
-  GetProductModelSelectList() {
-    return ApiService.get(`${baseUrl}/ProductModelSelectList`);
+  GetProductTypeSelectList() {
+    return ApiService.get(`${baseUrl}/ProductTypeSelectList`);
   },
   GetProductColourSelectList() {
     return ApiService.get(`${baseUrl}/ProductColourSelectList`);
