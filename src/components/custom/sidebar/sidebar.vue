@@ -84,7 +84,7 @@ const breadcrumbs = computed(() => {
         {{ sidebarOpen ? "chevron_left" : "chevron_right" }}
       </span>
     </Button>
-    <div class="hidden sticky border-r bg-muted/40 md:block">
+    <div class="hidden border-r bg-muted/40 md:block">
       <div class="flex h-full max-h-screen flex-col gap-2">
         <div class="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <router-link to="/" class="flex items-center gap-2 font-semibold">
@@ -101,7 +101,7 @@ const breadcrumbs = computed(() => {
             <span class="sr-only">Toggle notifications</span>
           </Button>
         </div>
-        <div class="flex-1">
+        <div class="flex-1 overflow-auto">
           <nav
             v-for="item in routes"
             :key="item.name"
@@ -175,7 +175,8 @@ const breadcrumbs = computed(() => {
         </div>
       </header>
       <main
-        class="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-[#FBFBFB] dark:bg-[#161514]"
+        class="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-[#FBFBFB] dark:bg-[#161514] overflow-y-auto"
+        style="height: calc(100vh - 60px)"
       >
         <Breadcrumb>
           <BreadcrumbList>

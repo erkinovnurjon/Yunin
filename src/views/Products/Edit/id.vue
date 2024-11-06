@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between items-center">
     <div class="flex justify-start items-center">
-      <y-button @click="() => router.back()" variant="outline" size="xs">
+      <y-button @click="() => router.back()" variant="destructive" size="icon">
         <ChevronLeft />
       </y-button>
       <h1 class="font-medium ml-4">Product Controller</h1>

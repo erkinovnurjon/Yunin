@@ -8,7 +8,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar as CalendarIcon } from "lucide-vue-next";
-import { ref, computed, defineProps, defineEmits, watch } from "vue";
+import { ref, computed, watch } from "vue";
 
 // Props for placeholder, label, maxDate, minDate, and initial date value
 const props = defineProps({
