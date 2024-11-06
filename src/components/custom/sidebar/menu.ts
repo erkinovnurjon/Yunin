@@ -24,8 +24,8 @@ export const menus: Menu[] = [
     icon: Package2,
   },
   {
-    name: "Overview",
-    to: "/overview",
+    name: "InventoryOut",
+    to: "/inventory-out",
     childrenVisible: false,
     children: [],
     icon: Package,

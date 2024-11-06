@@ -5,7 +5,6 @@ import {
 } from "vue-router";
 import Products from "@/views/Products/index.vue";
 import Login from "@/components/custom/login/login.vue";
-import Overview from "@/views/Overview.vue";
 import Settings from "@/views/settings.vue";
 import Home from "@/views/home.vue";
 
@@ -68,16 +67,91 @@ const routes: RouteRecordRaw[] = [
         name: "InventoryIn",
         path: "/inventory-in",
         component: () => import("@/views/InventoryIn/index.vue"),
+        meta: {
+          pageTitle: "InventoryIn",
+          breadcrumbs: [
+            {
+              title: "Home",
+              disabled: false,
+              href: "/home",
+            },
+            {
+              title: "Inventory In",
+              disabled: true,
+              href: "#",
+            },
+          ],
+        },
       },
       {
         path: "/inventory-in/edit/:id",
         name: "InventoryInEdit",
         component: () => import("@/views/InventoryIn/Edit/index.vue"),
+        meta: {
+          pageTitle: "Inventory In Edit",
+          breadcrumbs: [
+            {
+              title: "Home",
+              disabled: false,
+              href: "/home",
+            },
+            {
+              title: "Inventory In",
+              disabled: false,
+              href: "/inventory-in",
+            },
+            {
+              title: "Inventory In Edit",
+              disabled: true,
+              href: "#",
+            },
+          ],
+        },
       },
       {
-        path: "/overview",
-        name: "Overview",
-        component: Overview,
+        name: "InventoryOut",
+        path: "/inventory-out",
+        component: () => import("@/views/InventoryOut/index.vue"),
+        meta: {
+          pageTitle: "InventoryOut",
+          breadcrumbs: [
+            {
+              title: "Home",
+              disabled: false,
+              href: "/home",
+            },
+            {
+              title: "Inventory Out",
+              disabled: true,
+              href: "#",
+            },
+          ],
+        },
+      },
+      {
+        path: "/inventory-out/edit/:id",
+        name: "InventoryOutEdit",
+        component: () => import("@/views/InventoryOut/Edit/index.vue"),
+        meta: {
+          pageTitle: "Inventory Out Edit",
+          breadcrumbs: [
+            {
+              title: "Home",
+              disabled: false,
+              href: "/home",
+            },
+            {
+              title: "Inventory Out",
+              disabled: false,
+              href: "/inventory-out",
+            },
+            {
+              title: "Inventory Out Edit",
+              disabled: true,
+              href: "#",
+            },
+          ],
+        },
       },
       {
         path: "settings",

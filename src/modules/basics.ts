@@ -46,7 +46,8 @@ export interface IProduct {
 export interface IInventory {
   description: string | null;
   id: number | null;
-  inDate: string | null;
+  inDate?: string | null;
+  outDate?: string | null;
   pricePerProduct: number | null;
   product: string | null;
   productId: number | null;

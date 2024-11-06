@@ -5,7 +5,7 @@ import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Edit, Trash, PlusCircle, File, ListFilter } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { InventoryInService } from "@/service/Inventory/inventoryin.service";
+import { InventoryOutService } from "@/service/Inventory/inventoryout.service";
 import { AxiosError } from "axios";
 import {
   DropdownMenu,
@@ -19,18 +19,21 @@ import {
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
-  { key: "inDate", label: "In Date", tClass: "" },
+  { key: "outDate", label: "Out Date", tClass: "" },
   { key: "product", label: "Product", tClass: "" },
+  { key: "inventoryIn", label: "Inventory In", tClass: "" },
   {
     key: "pricePerProduct",
     label: "Price Per Product",
     tClass: "",
     isAmount: true,
   },
+  { key: "paymentType", label: "Payment Type", tClass: "" },
   { key: "quantitiy", label: "Quantitiy", tClass: "" },
-  { key: "description", label: "description", tClass: "" },
-  { key: "status", label: "status", tClass: "" },
-  { key: "actions", label: "actions", tClass: "" },
+  { key: "customer", label: "Customer", tClass: "" },
+  { key: "description", label: "Description", tClass: "" },
+  { key: "status", label: "Status", tClass: "" },
+  { key: "actions", label: "Actions", tClass: "" },
 ]);
 
 const { toast } = useToast();
@@ -46,14 +49,14 @@ const filter = ref({
 const totalRows = ref<number>(0);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
-  InventoryInService.GetList(filter.value).then((res: any) => {
+  InventoryOutService.GetList(filter.value).then((res: any) => {
     data.value = res.data.rows;
     totalRows.value = res.data.total;
   });
 };
 Refresh();
 const goPage = (id: number | string = 0) => {
-  router.push(`/inventory-in/edit/${id}`);
+  router.push(`/inventory-out/edit/${id}`);
 };
 // Table data block
 
@@ -72,7 +75,7 @@ const onDialogClose = () => {
 
 const onDialogSubmit = () => {
   if (deleteItem.value) {
-    InventoryInService.Delete(deleteItem.value)
+    InventoryOutService.Delete(deleteItem.value)
       .then(() => {
         toast({
           title: "Successfully Saved",
@@ -129,14 +132,14 @@ const tabValue = ref<number>(0);
         <File class="h-3.5 w-3.5" />Export</y-button
       >
       <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
-        ><PlusCircle class="h-3.5 w-3.5" />Create Inventory</y-button
+        ><PlusCircle class="h-3.5 w-3.5" />Create Inventory-Out</y-button
       >
     </div>
   </div>
   <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
     <template #header>
       <div class="flex justify-between items-center px-6">
-        <span class="text-3xl font-medium">Inventory</span>
+        <span class="text-3xl font-medium">Inventory Out</span>
       </div>
     </template>
     <y-table
@@ -167,9 +170,7 @@ const tabValue = ref<number>(0);
       @close="onDialogClose"
       @submit="onDialogSubmit"
     >
-      <template #body>
-        Do you want to delete inventory ID: {{ deleteItem }}
-      </template>
+      <template #body> Do you want to delete ID: {{ deleteItem }} </template>
     </y-dialog>
   </page-wrapper>
 </template>
