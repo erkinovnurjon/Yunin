@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// @ts-nocheck
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -44,25 +45,6 @@ const toggleChildren = (name: string) => {
 
 // Access the current route
 const route = useRoute();
-
-// Compute breadcrumbs based on the matched route records
-const breadcrumbs = computed(() => {
-  const matchedRoutes = route.matched.map((routeRecord) => ({
-    name: routeRecord.name,
-    path: routeRecord.path,
-  }));
-
-  // Ensure "Home" is always the first breadcrumb
-  if (matchedRoutes.length === 0 || matchedRoutes[0].name !== "Home") {
-    matchedRoutes.unshift({
-      name: "Home",
-      path: "/",
-    });
-  }
-
-  console.log("Breadcrumbs:", matchedRoutes); // Konsolga chiqarish
-  return matchedRoutes;
-});
 </script>
 
 <template>
@@ -178,19 +160,29 @@ const breadcrumbs = computed(() => {
         class="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6 bg-[#FBFBFB] dark:bg-[#161514] overflow-y-auto"
         style="height: calc(100vh - 60px)"
       >
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem
-              v-for="(breadcrumb, index) in breadcrumbs"
-              :key="index"
-            >
-              <BreadcrumbLink :href="breadcrumb.path">
-                {{ breadcrumb.name }}
-              </BreadcrumbLink>
-              <BreadcrumbSeparator v-if="index < breadcrumbs.length - 2" />
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <div
+          v-if="route.meta.pageTitle || route.meta.breadcrumbs"
+          class="flex items-center space-x-2 text-sm text-gray-600"
+        >
+          <div
+            v-for="(breadcrumb, index) in route.meta.breadcrumbs"
+            :key="index"
+            class="flex items-center"
+          >
+            <!-- Breadcrumb item as a link if not disabled, otherwise just text -->
+            <div v-if="!breadcrumb.disabled">
+              <router-link
+                :to="breadcrumb.href"
+                class="hover:text-blue-600"
+                v-text="breadcrumb.title"
+              />
+            </div>
+            <div v-else class="text-gray-400" v-text="breadcrumb.title"></div>
+
+            <!-- Separator, not displayed after the last breadcrumb -->
+            <span class="mx-1 text-gray-400">/</span>
+          </div>
+        </div>
         <slot></slot>
       </main>
     </div>

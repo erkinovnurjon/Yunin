@@ -4,9 +4,7 @@ import axios, {
   type AxiosResponse,
 } from "axios";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { useRouter } from "vue-router";
 
-const router = useRouter();
 const { toast } = useToast();
 
 const pendingForms = new WeakMap();
@@ -102,7 +100,7 @@ const ApiService = {
       },
       async (error: AxiosError) => {
         if (error.request.status == 401) {
-          router.push("/login");
+          window.location.reload();
         }
 
         if (error.request.status == 403) {
