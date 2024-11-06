@@ -5,7 +5,7 @@ import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Edit, Trash, PlusCircle, File, ListFilter } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { ProductService } from "@/service/Products/products.service";
+import { InventoryInService } from "@/service/Inventory/inventoryin.service";
 import { AxiosError } from "axios";
 import {
   DropdownMenu,
@@ -16,17 +16,18 @@ import {
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
 
-const baseURL = import.meta.env.VITE_BASE_API_URL;
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
-  { key: "thumbnailId", label: "Image", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
-  { key: "acquiredPrice", label: "Acquired Price", tClass: "", isAmount: true },
-  { key: "salePrice", label: "Sale Price", tClass: "", isAmount: true },
-  { key: "contragent", label: "contragent", tClass: "" },
-  { key: "productColour", label: "Product Colour", tClass: "" },
-  { key: "producttype", label: "Product Type", tClass: "" },
-  { key: "size", label: "Size", tClass: "" },
+  { key: "inDate", label: "In Date", tClass: "" },
+  { key: "product", label: "Product", tClass: "" },
+  {
+    key: "pricePerProduct",
+    label: "Price Per Product",
+    tClass: "",
+    isAmount: true,
+  },
+  { key: "quantitiy", label: "Quantitiy", tClass: "" },
   { key: "description", label: "description", tClass: "" },
   { key: "status", label: "status", tClass: "" },
   { key: "actions", label: "actions", tClass: "" },
@@ -45,14 +46,14 @@ const filter = ref({
 const totalRows = ref<number>(0);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
-  ProductService.GetList(filter.value).then((res: any) => {
+  InventoryInService.GetList(filter.value).then((res: any) => {
     data.value = res.data.rows;
     totalRows.value = res.data.total;
   });
 };
 Refresh();
 const goPage = (id: number | string = 0) => {
-  router.push(`/products/edit/${id}`);
+  router.push(`/inventory-in/edit/${id}`);
 };
 // Table data block
 
@@ -71,7 +72,7 @@ const onDialogClose = () => {
 
 const onDialogSubmit = () => {
   if (deleteItem.value) {
-    ProductService.Delete(deleteItem.value)
+    InventoryInService.Delete(deleteItem.value)
       .then(() => {
         toast({
           title: "Successfully Saved",
@@ -128,14 +129,14 @@ const tabValue = ref<number>(0);
         <File class="h-3.5 w-3.5" />Export</y-button
       >
       <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
-        ><PlusCircle class="h-3.5 w-3.5" />Add Product</y-button
+        ><PlusCircle class="h-3.5 w-3.5" />Create Inventory</y-button
       >
     </div>
   </div>
   <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
     <template #header>
       <div class="flex justify-between items-center px-6">
-        <span class="text-3xl font-medium">Products</span>
+        <span class="text-3xl font-medium">Inventory</span>
       </div>
     </template>
     <y-table
@@ -147,14 +148,6 @@ const tabValue = ref<number>(0);
       :pageSize="filter.pageSize"
       @refresh="Refresh"
     >
-      <template #item-thumbnailId="{ item }">
-        <img
-          class="aspect-square rounded-md object-cover"
-          width="64"
-          height="64"
-          :src="baseURL + `Product/DownloadFile/${item.thumbnailId}`"
-        />
-      </template>
       <template #item-actions="{ item }">
         <div class="flex justify-center">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
@@ -175,7 +168,7 @@ const tabValue = ref<number>(0);
       @submit="onDialogSubmit"
     >
       <template #body>
-        do you want to delete product {{ deleteItem }}
+        Do you want to delete invetory ID: {{ deleteItem }}
       </template>
     </y-dialog>
   </page-wrapper>

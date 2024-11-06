@@ -30,6 +30,16 @@ const routes: RouteRecordRaw[] = [
         component: () => import("@/views/Products/Edit/id.vue"),
       },
       {
+        name: "InventoryIn",
+        path: "/inventory-in",
+        component: () => import("@/views/InventoryIn/index.vue"),
+      },
+      {
+        path: "/inventory-in/edit/:id",
+        name: "InventoryInEdit",
+        component: () => import("@/views/InventoryIn/Edit/index.vue"),
+      },
+      {
         path: "/overview",
         name: "Overview",
         component: Overview,

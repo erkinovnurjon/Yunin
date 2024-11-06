@@ -75,7 +75,7 @@
             class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
           >
             <y-select
-              label="Product Model"
+              label="Product Type"
               v-model="product.productTypeId"
               :data="productTypeList"
             />

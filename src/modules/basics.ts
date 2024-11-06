@@ -43,6 +43,18 @@ export interface IProduct {
   contragentId: number | string | null;
   statusId: number | string | null;
 }
+export interface IInventory {
+  description: string | null;
+  id: number | null;
+  inDate: string | null;
+  pricePerProduct: number | null;
+  product: string | null;
+  productId: number | null;
+  quantitiy: number | null;
+  status: string | null;
+  statusId: number | null;
+  title: string | null;
+}
 
 export interface ISelect {
   value: string | number;
