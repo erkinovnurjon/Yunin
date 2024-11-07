@@ -1,4 +1,4 @@
-import ApiService from "../api.service";
+import ApiService from "@/service/api.service";
 
 const baseUrl: string = "InventoryIn";
 export const InventoryInService = {

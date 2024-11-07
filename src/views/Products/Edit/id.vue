@@ -140,7 +140,7 @@ import Label from "@/components/ui/label/Label.vue";
 import Textarea from "@/components/ui/textarea/Textarea.vue";
 import { CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ManualService } from "@/service/Manual/manual.service";
-import { ProductService } from "@/service/Products/products.service";
+import { ProductService } from "../products.service";
 import { AxiosError, AxiosResponse } from "axios";
 import { useToast } from "@/components/ui/toast/use-toast";
 import placeholderImage from "../../../assets/images/placeholder.svg";

@@ -1,7 +1,7 @@
-import ApiService from "../api.service";
+import ApiService from "@/service/api.service";
 
-const baseUrl: string = "Product";
-export const ProductService = {
+const baseUrl: string = "InventoryOut";
+export const InventoryOutService = {
   GetList(data: any) {
     return ApiService.post(`${baseUrl}/GetList`, data);
   },
@@ -27,8 +27,5 @@ export const ProductService = {
   },
   Delete(id: number | string) {
     return ApiService.post(`${baseUrl}/Delete/${id}`);
-  },
-  GetAsSelectList() {
-    return ApiService.post(`${baseUrl}/GetAsSelectList`);
   },
 };

@@ -5,7 +5,7 @@ import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Edit, Trash, PlusCircle, File, ListFilter } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { ProductService } from "@/service/Products/products.service";
+import { ProductService } from "@/views/Products/products.service";
 import { AxiosError } from "axios";
 import {
   DropdownMenu,

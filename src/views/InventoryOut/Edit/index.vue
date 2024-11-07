@@ -87,8 +87,8 @@ import Label from "@/components/ui/label/Label.vue";
 import Textarea from "@/components/ui/textarea/Textarea.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
-import { ProductService } from "@/service/Products/products.service";
-import { InventoryOutService } from "@/service/Inventory/inventoryout.service";
+import { ProductService } from "@/views/Products/products.service";
+import { InventoryOutService } from "../inventoryout.service";
 import { useToast } from "@/components/ui/toast/use-toast";
 
 const { toast } = useToast();

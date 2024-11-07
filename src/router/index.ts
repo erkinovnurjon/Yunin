@@ -3,10 +3,11 @@ import {
   createWebHistory,
   type RouteRecordRaw,
 } from "vue-router";
-import Products from "@/views/Products/index.vue";
 import Login from "@/components/custom/login/login.vue";
 import Settings from "@/views/settings.vue";
-import Home from "@/views/home.vue";
+import { ProductRoutes } from "@/views/Products/router";
+import { InventoryOut } from "@/views/InventoryOut/route";
+import { InventoryIn } from "@/views/InventoryIn/route";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -16,143 +17,11 @@ const routes: RouteRecordRaw[] = [
       {
         name: "Home",
         path: "/home",
-        component: Home,
+        component: () => import("@/views/home.vue"),
       },
-      {
-        name: "Products",
-        path: "/products",
-        component: Products,
-        meta: {
-          pageTitle: "Products",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Products",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
-      {
-        path: "/products/edit/:id",
-        name: "ProductEdit",
-        component: () => import("@/views/Products/Edit/id.vue"),
-        meta: {
-          pageTitle: "Product Edit",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Products",
-              disabled: false,
-              href: "/products",
-            },
-            {
-              title: "Product Edit",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
-      {
-        name: "InventoryIn",
-        path: "/inventory-in",
-        component: () => import("@/views/InventoryIn/index.vue"),
-        meta: {
-          pageTitle: "InventoryIn",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Inventory In",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
-      {
-        path: "/inventory-in/edit/:id",
-        name: "InventoryInEdit",
-        component: () => import("@/views/InventoryIn/Edit/index.vue"),
-        meta: {
-          pageTitle: "Inventory In Edit",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Inventory In",
-              disabled: false,
-              href: "/inventory-in",
-            },
-            {
-              title: "Inventory In Edit",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
-      {
-        name: "InventoryOut",
-        path: "/inventory-out",
-        component: () => import("@/views/InventoryOut/index.vue"),
-        meta: {
-          pageTitle: "InventoryOut",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Inventory Out",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
-      {
-        path: "/inventory-out/edit/:id",
-        name: "InventoryOutEdit",
-        component: () => import("@/views/InventoryOut/Edit/index.vue"),
-        meta: {
-          pageTitle: "Inventory Out Edit",
-          breadcrumbs: [
-            {
-              title: "Home",
-              disabled: false,
-              href: "/home",
-            },
-            {
-              title: "Inventory Out",
-              disabled: false,
-              href: "/inventory-out",
-            },
-            {
-              title: "Inventory Out Edit",
-              disabled: true,
-              href: "#",
-            },
-          ],
-        },
-      },
+      ...ProductRoutes,
+      ...InventoryIn,
+      ...InventoryOut,
       {
         path: "settings",
         name: "Settings",
