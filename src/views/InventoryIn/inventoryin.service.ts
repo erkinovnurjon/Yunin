@@ -28,4 +28,7 @@ export const InventoryInService = {
   Delete(id: number | string) {
     return ApiService.post(`${baseUrl}/Delete/${id}`);
   },
+  Accept(data: any) {
+    return ApiService.post(`${baseUrl}/Accept`, data);
+  },
 };

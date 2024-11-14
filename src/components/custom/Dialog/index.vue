@@ -6,6 +6,7 @@ import {
   DialogFooter,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Loader2 } from "lucide-vue-next";
 import { ref } from "vue";
 
 // Define props for title and labels
@@ -21,6 +22,10 @@ const props = defineProps({
   submitLabel: {
     type: String,
     default: "Submit",
+  },
+  submitLoader: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -66,7 +71,13 @@ const handleClose = () => {
         >
           {{ closeLabel }}
         </y-button>
-        <y-button type="button" class="btn btn-primary" @click="handleSubmit">
+        <y-button
+          type="button"
+          class="btn btn-primary"
+          @click="handleSubmit"
+          :disabled="submitLoader"
+        >
+          <Loader2 v-if="submitLoader" class="w-4 h-4 mr-2 animate-spin" />
           {{ submitLabel }}
         </y-button>
       </DialogFooter>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -10,6 +10,7 @@ import {
   File,
   ListFilter,
   FileInput,
+  CheckCheck,
 } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { InventoryInService } from "@/views/InventoryIn/inventoryin.service";
@@ -22,6 +23,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
+import Input from "@/components/ui/input/Input.vue";
+import Label from "@/components/ui/label/Label.vue";
 
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
@@ -68,7 +71,7 @@ const goPage = (id: number | string = 0, isInventoryOut: boolean = false) => {
 };
 // Table data block
 
-// Dialog Block
+// Delete Dialog Block
 const deleteDialog = ref<boolean>(false);
 const deleteItem = ref<number | string | null>(null);
 const openDeleteModal = (id: number) => {
@@ -76,22 +79,22 @@ const openDeleteModal = (id: number) => {
   deleteDialog.value = true;
 };
 
-const onDialogClose = () => {
+const onDeleteDialogClose = () => {
   deleteItem.value = null;
   deleteDialog.value = false;
 };
 
-const onDialogSubmit = () => {
+const onDeleteDialogSubmit = () => {
   if (deleteItem.value) {
     InventoryInService.Delete(deleteItem.value)
       .then(() => {
         toast({
-          title: "Successfully Saved",
+          title: "Successfully deleted",
           variant: "default",
           duration: 1000,
         });
         Refresh();
-        onDialogClose();
+        onDeleteDialogClose();
       })
       .catch((error: AxiosError) => {
         toast({
@@ -103,7 +106,53 @@ const onDialogSubmit = () => {
       });
   }
 };
-// Dialog Block
+// Delete Dialog Block
+// Accept Dialog Block
+const acceptDialog = ref<boolean>(false);
+const acceptDialogLoading = ref<boolean>(false);
+interface IAcceptItem {
+  id: number | null;
+  message: string;
+}
+const DEFAULT_VALUE = { id: null, message: "" };
+const acceptItem = reactive<IAcceptItem>({ ...DEFAULT_VALUE });
+const openAcceptModal = (id: number) => {
+  acceptItem.id = id;
+  acceptDialog.value = true;
+};
+
+const onAcceptDialogClose = () => {
+  Object.assign(acceptItem, { ...DEFAULT_VALUE });
+  acceptDialog.value = false;
+};
+
+const onAcceptDialogSubmit = () => {
+  if (acceptItem.id && acceptItem.message) {
+    acceptDialogLoading.value = true;
+    InventoryInService.Accept(acceptItem)
+      .then(() => {
+        toast({
+          title: "Successfully Accepted",
+          variant: "default",
+          duration: 1000,
+        });
+        Refresh();
+      })
+      .catch((error: AxiosError) => {
+        toast({
+          title: "Error on delete",
+          description: `${error}`,
+          variant: "destructive",
+          duration: 1000,
+        });
+      })
+      .finally(() => {
+        acceptDialogLoading.value = false;
+        onAcceptDialogClose();
+      });
+  }
+};
+// Accept Dialog Block
 // Tab Block
 const tabValue = ref<number>(0);
 </script>
@@ -167,6 +216,11 @@ const tabValue = ref<number>(0);
             class="cursor-pointer ml-2"
             :size="16"
           />
+          <CheckCheck
+            @click="openAcceptModal(item.id)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
           <Trash
             @click="openDeleteModal(item.id)"
             class="cursor-pointer ml-2"
@@ -180,11 +234,36 @@ const tabValue = ref<number>(0);
       closeLabel="Cancel"
       submitLabel="Delete"
       v-model:open="deleteDialog"
-      @close="onDialogClose"
-      @submit="onDialogSubmit"
+      @close="onDeleteDialogClose"
+      @submit="onDeleteDialogSubmit"
     >
       <template #body>
         Do you want to delete inventory ID: {{ deleteItem }}
+      </template>
+    </y-dialog>
+    <y-dialog
+      title="Accept Inventory In"
+      closeLabel="Cancel"
+      submitLabel="Accept"
+      :submitLoader="acceptDialogLoading"
+      v-model:open="acceptDialog"
+      @close="onAcceptDialogClose"
+      @submit="onAcceptDialogSubmit"
+    >
+      <template #body>
+        <span class="font-bold text-md"
+          >Do you want to accept Inventory In Document with ID:
+          {{ acceptItem.id }}</span
+        >
+        <div class="mt-4">
+          <Label>Message:</Label>
+          <Input
+            class="mt-2"
+            id="title"
+            type="text"
+            v-model="acceptItem.message"
+          />
+        </div>
       </template>
     </y-dialog>
   </page-wrapper>
