@@ -69,6 +69,22 @@
           />
         </div>
       </div>
+      <div class="flex flex-wrap items-center gap-8 mt-4">
+        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+          <y-select
+            label="Payment Type"
+            v-model="inventory.paymentTypeId"
+            :data="paymentTypeSelectList"
+          />
+        </div>
+        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+          <y-select
+            label="Customer List"
+            v-model="inventory.customerId"
+            :data="customerSelectList"
+          />
+        </div>
+      </div>
     </page-wrapper>
   </div>
 </template>
@@ -77,6 +93,7 @@
 // Vue functions
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useToast } from "@/components/ui/toast/use-toast";
 // Icons and Types
 import { ChevronLeft } from "lucide-vue-next";
 import { IInventory, ISelect } from "@/modules/basics";
@@ -87,9 +104,10 @@ import Label from "@/components/ui/label/Label.vue";
 import Textarea from "@/components/ui/textarea/Textarea.vue";
 import CardHeader from "@/components/ui/card/CardHeader.vue";
 import CardTitle from "@/components/ui/card/CardTitle.vue";
+// Services
 import { ProductService } from "@/views/Products/products.service";
 import { InventoryOutService } from "../inventoryout.service";
-import { useToast } from "@/components/ui/toast/use-toast";
+import { ManualService } from "@/service/Manual/manual.service";
 
 const { toast } = useToast();
 const router = useRouter();
@@ -106,6 +124,8 @@ const inventory = ref<IInventory>({
   statusId: null,
   title: "",
   inventoryInId: null,
+  customerId: null,
+  paymentTypeId: null,
 });
 
 const productsSelectList = ref<ISelect[]>([]);
@@ -115,6 +135,22 @@ function GetProductsAsSelectList() {
   });
 }
 GetProductsAsSelectList();
+
+const customerSelectList = ref<ISelect[]>([]);
+function GetCustomerAsSelectList() {
+  ManualService.GetCustomerSelectList().then((res: AxiosResponse) => {
+    customerSelectList.value = res.data;
+  });
+}
+GetCustomerAsSelectList();
+
+const paymentTypeSelectList = ref<ISelect[]>([]);
+function GetPaymentTypeSelectList() {
+  ManualService.GetPaymentTypeSelectList().then((res: AxiosResponse) => {
+    paymentTypeSelectList.value = res.data;
+  });
+}
+GetPaymentTypeSelectList();
 
 // Save Inventory Function
 function SaveInventory() {

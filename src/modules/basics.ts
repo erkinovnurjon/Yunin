@@ -54,8 +54,10 @@ export interface IInventory {
   quantitiy: number | null;
   status: string | null;
   statusId: number | null;
-  inventoryInId: number | null;
+  inventoryInId?: number | null;
   title: string | null;
+  customerId?: number | null;
+  paymentTypeId?: number | null;
 }
 
 export interface ISelect {

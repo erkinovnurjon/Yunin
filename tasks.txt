@@ -1,0 +1,8 @@
+14.11.2024 
+1. ProductType chiqishi kerak GetList'da ---- DONE
+2. Loader kerak List'larga ---- DONE
+3. InventoryOut CRUD ---- DONE
+    3.1 Manulaga kerakli api larni qo'shish ---- DONE
+4. FinancialTransaction CRUD
+5. Accept both Out and In
+6. Go to document button for FinancialTransaction
