@@ -3,16 +3,9 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Edit,
-  Trash,
-  PlusCircle,
-  File,
-  ListFilter,
-  FileInput,
-} from "lucide-vue-next";
+import { Edit, PlusCircle, File, ListFilter } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { InventoryInService } from "@/views/InventoryIn/inventoryin.service";
+import { FinancialTransactionService } from "./financialtransaction.service";
 import { AxiosError } from "axios";
 import {
   DropdownMenu,
@@ -26,16 +19,21 @@ import {
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
   { key: "title", label: "Title", tClass: "" },
-  { key: "inDate", label: "In Date", tClass: "" },
-  { key: "product", label: "Product", tClass: "" },
+  { key: "transactionDate", label: "Transaction Date", tClass: "" },
+  { key: "paymentType", label: "Payment Type", tClass: "" },
+  { key: "transactionSource", label: "Transaction Source", tClass: "" },
   {
-    key: "pricePerProduct",
-    label: "Price Per Product",
+    key: "transactionType",
+    label: "Transaction Type",
+    tClass: "",
+    isAmount: false,
+  },
+  {
+    key: "amount",
+    label: "Amount",
     tClass: "",
     isAmount: true,
   },
-  { key: "quantitiy", label: "Quantitiy", tClass: "" },
-  { key: "description", label: "description", tClass: "" },
   { key: "status", label: "Status", tClass: "" },
   { key: "actions", label: "Actions", tClass: "" },
 ]);
@@ -53,57 +51,26 @@ const filter = ref({
 const totalRows = ref<number>(0);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
-  InventoryInService.GetList(filter.value).then((res: any) => {
-    data.value = res.data.rows;
-    totalRows.value = res.data.total;
-  });
+  FinancialTransactionService.GetList(filter.value)
+    .then((res: any) => {
+      data.value = res.data.rows;
+      totalRows.value = res.data.total;
+    })
+    .catch((error: AxiosError) => {
+      toast({
+        title: "Error on delete",
+        description: `${error}`,
+        variant: "destructive",
+        duration: 1000,
+      });
+    });
 };
 Refresh();
-const goPage = (id: number | string = 0, isInventoryOut: boolean = false) => {
-  if (!isInventoryOut) {
-    router.push(`/inventory-in/edit/${id}`);
-  } else {
-    router.push(`/inventory-out/edit/0?inventory-in=${id}`);
-  }
+const goPage = (id: number | string = 0) => {
+  router.push(`/financial-transaction/edit/${id}`);
 };
 // Table data block
 
-// Dialog Block
-const deleteDialog = ref<boolean>(false);
-const deleteItem = ref<number | string | null>(null);
-const openDeleteModal = (id: number) => {
-  deleteItem.value = id;
-  deleteDialog.value = true;
-};
-
-const onDialogClose = () => {
-  deleteItem.value = null;
-  deleteDialog.value = false;
-};
-
-const onDialogSubmit = () => {
-  if (deleteItem.value) {
-    InventoryInService.Delete(deleteItem.value)
-      .then(() => {
-        toast({
-          title: "Successfully Saved",
-          variant: "default",
-          duration: 1000,
-        });
-        Refresh();
-        onDialogClose();
-      })
-      .catch((error: AxiosError) => {
-        toast({
-          title: "Error on delete",
-          description: `${error}`,
-          variant: "destructive",
-          duration: 1000,
-        });
-      });
-  }
-};
-// Dialog Block
 // Tab Block
 const tabValue = ref<number>(0);
 </script>
@@ -140,14 +107,14 @@ const tabValue = ref<number>(0);
         <File class="h-3.5 w-3.5" />Export</y-button
       >
       <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
-        ><PlusCircle class="h-3.5 w-3.5" />Create Inventory</y-button
+        ><PlusCircle class="h-3.5 w-3.5" />Make Financial Transaction</y-button
       >
     </div>
   </div>
   <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
     <template #header>
       <div class="flex justify-between items-center px-6">
-        <span class="text-3xl font-medium">Inventory</span>
+        <span class="text-3xl font-medium">Financial Transaction</span>
       </div>
     </template>
     <y-table
@@ -162,30 +129,8 @@ const tabValue = ref<number>(0);
       <template #item-actions="{ item }">
         <div class="flex justify-start">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
-          <FileInput
-            @click="goPage(item.id, true)"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
-          <Trash
-            @click="openDeleteModal(item.id)"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
         </div>
       </template>
     </y-table>
-    <y-dialog
-      title="Delete Account"
-      closeLabel="Cancel"
-      submitLabel="Delete"
-      v-model:open="deleteDialog"
-      @close="onDialogClose"
-      @submit="onDialogSubmit"
-    >
-      <template #body>
-        Do you want to delete inventory ID: {{ deleteItem }}
-      </template>
-    </y-dialog>
   </page-wrapper>
 </template>

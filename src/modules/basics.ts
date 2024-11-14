@@ -65,3 +65,14 @@ export interface ISelect {
   text: string;
   orderCode?: string | null;
 }
+
+export interface IFinancialTransaction {
+  transactionDate: string;
+  title: string;
+  description: string;
+  documentId: number | null;
+  transactionTypeId: number | null;
+  transactionSourceId: number | null;
+  amount: number | null;
+  paymentTypeId: number | null;
+}

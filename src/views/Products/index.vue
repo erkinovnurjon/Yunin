@@ -27,8 +27,8 @@ const Fields = ref<ITableHeader[]>([
   { key: "productType", label: "Product Type", tClass: "" },
   { key: "size", label: "Size", tClass: "" },
   { key: "description", label: "description", tClass: "" },
-  { key: "status", label: "status", tClass: "" },
-  { key: "actions", label: "actions", tClass: "" },
+  { key: "status", label: "Status", tClass: "" },
+  { key: "actions", label: "Actions", tClass: "" },
 ]);
 
 const { toast } = useToast();

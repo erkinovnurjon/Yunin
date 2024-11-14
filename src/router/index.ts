@@ -8,6 +8,7 @@ import Settings from "@/views/settings.vue";
 import { ProductRoutes } from "@/views/Products/router";
 import { InventoryOut } from "@/views/InventoryOut/route";
 import { InventoryIn } from "@/views/InventoryIn/route";
+import { FinancialTransaction } from "@/views/FinancialTransaction/route";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -22,6 +23,7 @@ const routes: RouteRecordRaw[] = [
       ...ProductRoutes,
       ...InventoryIn,
       ...InventoryOut,
+      ...FinancialTransaction,
       {
         path: "settings",
         name: "Settings",

@@ -30,4 +30,11 @@ export const menus: Menu[] = [
     children: [],
     icon: Package,
   },
+  {
+    name: "Financial Transaction",
+    to: "/financial-transaction",
+    childrenVisible: false,
+    children: [],
+    icon: Package,
+  },
 ];

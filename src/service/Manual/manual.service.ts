@@ -26,6 +26,9 @@ export const ManualService = {
   GetTransactionTypeSelectList() {
     return ApiService.get(`${baseUrl}/TransactionTypeSelectList`);
   },
+  GetTransactionSourceSelectList() {
+    return ApiService.get(`${baseUrl}/TransactionSourceSelectList`);
+  },
   GetPaymentTypeSelectList() {
     return ApiService.get(`${baseUrl}/PaymentTypeSelectList`);
   },
