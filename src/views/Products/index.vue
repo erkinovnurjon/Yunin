@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
   DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-
 const baseURL = import.meta.env.VITE_BASE_API_URL;
 const Fields = ref<ITableHeader[]>([
   { key: "id", label: "Id", tClass: "" },
@@ -25,7 +24,7 @@ const Fields = ref<ITableHeader[]>([
   { key: "salePrice", label: "Sale Price", tClass: "", isAmount: true },
   { key: "contragent", label: "contragent", tClass: "" },
   { key: "productColour", label: "Product Colour", tClass: "" },
-  { key: "producttype", label: "Product Type", tClass: "" },
+  { key: "productType", label: "Product Type", tClass: "" },
   { key: "size", label: "Size", tClass: "" },
   { key: "description", label: "description", tClass: "" },
   { key: "status", label: "status", tClass: "" },
@@ -36,6 +35,7 @@ const { toast } = useToast();
 const router = useRouter();
 
 // Table data block
+const loading = ref<boolean>(false);
 const data = ref(null);
 const filter = ref({
   page: 1,
@@ -44,11 +44,23 @@ const filter = ref({
 });
 const totalRows = ref<number>(0);
 const Refresh = (page: number = 1) => {
+  loading.value = true;
   filter.value.page = page;
-  ProductService.GetList(filter.value).then((res: any) => {
-    data.value = res.data.rows;
-    totalRows.value = res.data.total;
-  });
+  ProductService.GetList(filter.value)
+    .then((res: any) => {
+      data.value = res.data.rows;
+      totalRows.value = res.data.total;
+    })
+    .catch((e: AxiosError) => {
+      toast({
+        variant: "default",
+        duration: 1000,
+        description: e.message,
+      });
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 Refresh();
 const goPage = (id: number | string = 0) => {
@@ -146,6 +158,7 @@ const tabValue = ref<number>(0);
       :page="filter.page"
       :pageSize="filter.pageSize"
       @refresh="Refresh"
+      :isLoading="loading"
     >
       <template #item-thumbnailId="{ item }">
         <img

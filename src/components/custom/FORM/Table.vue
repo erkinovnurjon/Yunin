@@ -15,10 +15,28 @@
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-if="data && data.length == 0">
-          <TableCell class="w-full"> <div>Not Found</div> </TableCell>
+        <TableRow v-if="isLoading">
+          <TableCell :colspan="Fields.length" class="h-24">
+            <div class="w-full h-full flex items-center justify-center">
+              <component :is="loader" v-if="loader" />
+              <div
+                v-else
+                class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+              ></div>
+            </div>
+          </TableCell>
         </TableRow>
-        <template v-if="data && data.length > 0">
+        <TableRow v-else-if="!data || data.length === 0">
+          <TableCell :colspan="Fields.length" class="h-24 text-center">
+            <slot name="not-found">
+              <div class="text-muted-foreground">
+                <FileX class="mx-auto h-8 w-8 mb-2" />
+                <p>No results found</p>
+              </div>
+            </slot>
+          </TableCell>
+        </TableRow>
+        <template v-else>
           <TableRow v-for="(item, i) in data" :key="`cell-${item.key}`">
             <template v-for="field in Fields" :key="`cell-field-${field.key}`">
               <TableCell>
@@ -48,16 +66,16 @@
         <Button
           variant="outline"
           @click="goToFirstPage"
-          :disabled="currentPage === 1"
+          :disabled="currentPage === 1 || isLoading"
         >
-          <ChevronsLeft />
+          <ChevronsLeft class="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
           @click="goToPrevPage"
-          :disabled="currentPage === 1"
+          :disabled="currentPage === 1 || isLoading"
         >
-          <ChevronLeft />
+          <ChevronLeft class="h-4 w-4" />
         </Button>
 
         <!-- Page numbers -->
@@ -65,6 +83,7 @@
           <Button
             @click="goToPage(page)"
             :variant="page === currentPage ? 'default' : 'outline'"
+            :disabled="isLoading"
           >
             {{ page }}
           </Button>
@@ -73,16 +92,16 @@
         <Button
           variant="outline"
           @click="goToNextPage"
-          :disabled="currentPage === totalPages"
+          :disabled="currentPage === totalPages || isLoading"
         >
-          <ChevronRight />
+          <ChevronRight class="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
           @click="goToLastPage"
-          :disabled="currentPage === totalPages"
+          :disabled="currentPage === totalPages || isLoading"
         >
-          <ChevronsRight />
+          <ChevronsRight class="h-4 w-4" />
         </Button>
       </div>
     </div>
@@ -107,6 +126,7 @@ import {
   ChevronsLeft,
   ChevronRight,
   ChevronsRight,
+  FileX,
 } from "lucide-vue-next";
 
 interface IProps {
@@ -115,19 +135,25 @@ interface IProps {
   totalRows: number;
   page: number;
   pageSize: number;
+  isLoading?: boolean;
+  loader?: any;
 }
+
 const props = withDefaults(defineProps<IProps>(), {
   totalRows: 0,
   page: 1,
   pageSize: 20,
   data: [],
+  isLoading: false,
+  loader: null,
 });
+
 const emits = defineEmits(["refresh"]);
 
 const { parseNumber } = useGlobal();
 const totalRowsCopy = toRef(props, "totalRows");
 const pageSizeCopy = toRef(props, "pageSize");
-const currentPage = ref(1); // Default page size
+const currentPage = ref(props.page);
 
 // Calculate total pages
 const totalPages = computed(() =>
@@ -141,7 +167,7 @@ watch(pageSizeCopy, () => {
 
 // Methods for pagination navigation
 const goToPage = (page: number) => {
-  if (page >= 1 && page <= totalPages.value) {
+  if (page >= 1 && page <= totalPages.value && !props.isLoading) {
     currentPage.value = page;
     emits("refresh", currentPage.value);
   }

@@ -29,13 +29,13 @@
         />
       </div>
       <div class="grid w-full gap-1.5 mt-4">
-        <Label for="description">In Date</Label>
+        <Label for="description">Out Date</Label>
         <y-calendar
           id="in_date"
-          placeholder="In Date"
-          :value="inventory.inDate"
-          v-model="inventory.inDate"
-          @update:value="(e: string) => inventory.inDate = e"
+          placeholder="Out Date"
+          :value="inventory.outDate"
+          v-model="inventory.outDate"
+          @update:value="(e: string) => inventory.outDate = e"
         />
       </div>
     </page-wrapper>
@@ -105,6 +105,7 @@ const inventory = ref<IInventory>({
   status: "",
   statusId: null,
   title: "",
+  inventoryInId: null,
 });
 
 const productsSelectList = ref<ISelect[]>([]);
@@ -142,6 +143,9 @@ InventoryOutService.Get(+route.params.id)
       inventory.value.pricePerProduct = null;
       inventory.value.productId = null;
       inventory.value.quantitiy = null;
+      if (route.query && route.query["inventory-in"]) {
+        inventory.value.inventoryInId = +route.query["inventory-in"];
+      }
     }
   })
   .catch((e: AxiosError) => {

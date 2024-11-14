@@ -3,7 +3,14 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Edit, Trash, PlusCircle, File, ListFilter } from "lucide-vue-next";
+import {
+  Edit,
+  Trash,
+  PlusCircle,
+  File,
+  ListFilter,
+  FileInput,
+} from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { InventoryInService } from "@/views/InventoryIn/inventoryin.service";
 import { AxiosError } from "axios";
@@ -52,8 +59,12 @@ const Refresh = (page: number = 1) => {
   });
 };
 Refresh();
-const goPage = (id: number | string = 0) => {
-  router.push(`/inventory-in/edit/${id}`);
+const goPage = (id: number | string = 0, isInventoryOut: boolean = false) => {
+  if (!isInventoryOut) {
+    router.push(`/inventory-in/edit/${id}`);
+  } else {
+    router.push(`/inventory-out/edit/0?inventory-in=${id}`);
+  }
 };
 // Table data block
 
@@ -149,8 +160,13 @@ const tabValue = ref<number>(0);
       @refresh="Refresh"
     >
       <template #item-actions="{ item }">
-        <div class="flex justify-center">
+        <div class="flex justify-start">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+          <FileInput
+            @click="goPage(item.id, true)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
           <Trash
             @click="openDeleteModal(item.id)"
             class="cursor-pointer ml-2"

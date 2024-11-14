@@ -54,6 +54,7 @@ export interface IInventory {
   quantitiy: number | null;
   status: string | null;
   statusId: number | null;
+  inventoryInId: number | null;
   title: string | null;
 }
 
