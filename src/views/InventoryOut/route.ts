@@ -44,4 +44,29 @@ export const InventoryOut = [
       ],
     },
   },
+  {
+    path: "/inventory-out/view/:id",
+    name: "InventoryOutView",
+    component: () => import("@/views/InventoryOut/View/index.vue"),
+    meta: {
+      pageTitle: "Inventory Out View",
+      breadcrumbs: [
+        {
+          title: "Home",
+          disabled: false,
+          href: "/home",
+        },
+        {
+          title: "Inventory Out",
+          disabled: false,
+          href: "/inventory-out",
+        },
+        {
+          title: "Inventory Out View",
+          disabled: true,
+          href: "#",
+        },
+      ],
+    },
+  },
 ];

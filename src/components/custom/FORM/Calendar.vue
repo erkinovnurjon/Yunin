@@ -95,9 +95,9 @@
               isCurrentMonth ? 'text-gray-900' : 'text-gray-400',
               isToday ? 'bg-blue-100' : '',
               date.toDateString() ===
-              (selectedDate.value
+              (selectedDate
                 ? new Date(
-                    selectedDate.value.split('.').reverse().join('-')
+                    selectedDate.split('.').reverse().join('-')
                   ).toDateString()
                 : '')
                 ? 'bg-blue-500 text-white'
@@ -113,7 +113,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, watch } from "vue";
 
 const props = defineProps({
@@ -181,7 +181,7 @@ const calendarDays = computed(() => {
   return days;
 });
 
-const selectDate = (date) => {
+const selectDate = (date: Date) => {
   const day = String(date.getDate()).padStart(2, "0");
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const year = date.getFullYear();

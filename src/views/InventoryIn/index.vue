@@ -11,6 +11,7 @@ import {
   ListFilter,
   FileInput,
   CheckCheck,
+  EyeIcon,
 } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { InventoryInService } from "@/views/InventoryIn/inventoryin.service";
@@ -62,11 +63,15 @@ const Refresh = (page: number = 1) => {
   });
 };
 Refresh();
-const goPage = (id: number | string = 0, isInventoryOut: boolean = false) => {
+const goPage = (
+  id: number | string = 0,
+  isInventoryOut: boolean = false,
+  page: string = "edit"
+) => {
   if (!isInventoryOut) {
-    router.push(`/inventory-in/edit/${id}`);
+    router.push(`/inventory-in/${page}/${id}`);
   } else {
-    router.push(`/inventory-out/edit/0?inventory-in=${id}`);
+    router.push(`/inventory-out/${page}/0?inventory-in=${id}`);
   }
 };
 // Table data block
@@ -218,6 +223,11 @@ const tabValue = ref<number>(0);
           />
           <CheckCheck
             @click="openAcceptModal(item.id)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
+          <EyeIcon
+            @click="goPage(item.id, false, 'view')"
             class="cursor-pointer ml-2"
             :size="16"
           />

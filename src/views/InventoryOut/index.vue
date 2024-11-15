@@ -3,7 +3,14 @@ import { reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Edit, Trash, File, ListFilter, CheckCheck } from "lucide-vue-next";
+import {
+  Edit,
+  Trash,
+  File,
+  ListFilter,
+  CheckCheck,
+  EyeIcon,
+} from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { InventoryOutService } from "./inventoryout.service";
 import { AxiosError } from "axios";
@@ -57,8 +64,8 @@ const Refresh = (page: number = 1) => {
   });
 };
 Refresh();
-const goPage = (id: number | string = 0) => {
-  router.push(`/inventory-out/edit/${id}`);
+const goPage = (id: number | string = 0, page: string = "edit") => {
+  router.push(`/inventory-out/${page}/${id}`);
 };
 // Table data block
 
@@ -205,6 +212,11 @@ const tabValue = ref<number>(0);
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
           <CheckCheck
             @click="openAcceptModal(item.id)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
+          <EyeIcon
+            @click="goPage(item.id, 'view')"
             class="cursor-pointer ml-2"
             :size="16"
           />
