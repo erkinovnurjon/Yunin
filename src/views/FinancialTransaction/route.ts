@@ -44,4 +44,29 @@ export const FinancialTransaction = [
       ],
     },
   },
+  {
+    path: "/financial-transaction/view/:id",
+    name: "FinancialTransactionView",
+    component: () => import("@/views/FinancialTransaction/View/index.vue"),
+    meta: {
+      pageTitle: "Financial Transaction View",
+      breadcrumbs: [
+        {
+          title: "Home",
+          disabled: false,
+          href: "/home",
+        },
+        {
+          title: "Financial Transaction",
+          disabled: false,
+          href: "/financial-transaction",
+        },
+        {
+          title: "Financial Transaction View",
+          disabled: true,
+          href: "#",
+        },
+      ],
+    },
+  },
 ];

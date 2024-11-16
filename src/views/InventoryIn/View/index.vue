@@ -1,7 +1,7 @@
 <template>
   <page-wrapper>
     <div class="font-bold text-lg mt-4">Inventroy In</div>
-    <div class="info-list">
+    <list>
       <list-item label="Title" :value="data.title" />
       <list-item label="Description" :value="data.description" />
       <list-item label="Product" :value="data.product" />
@@ -13,7 +13,7 @@
       />
       <list-item label="Quantitiy" :value="data.quantitiy" />
       <list-item label="Status" :value="data.status" />
-    </div>
+    </list>
   </page-wrapper>
 </template>
 

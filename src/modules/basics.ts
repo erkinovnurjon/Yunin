@@ -68,11 +68,16 @@ export interface ISelect {
 
 export interface IFinancialTransaction {
   transactionDate: string;
+  id: number | null;
   title: string;
   description: string;
   documentId: number | null;
   transactionTypeId: number | null;
+  transactionType: string | null;
   transactionSourceId: number | null;
+  transactionSource: string | null;
   amount: number | null;
   paymentTypeId: number | null;
+  paymentType: string | null;
+  status: string | null;
 }

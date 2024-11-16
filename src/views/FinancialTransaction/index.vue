@@ -3,7 +3,14 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { ITableHeader } from "@/modules/basics";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Edit, PlusCircle, File, ListFilter } from "lucide-vue-next";
+import {
+  Edit,
+  PlusCircle,
+  File,
+  ListFilter,
+  EyeIcon,
+  FileSliders,
+} from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { FinancialTransactionService } from "./financialtransaction.service";
 import { AxiosError } from "axios";
@@ -66,8 +73,11 @@ const Refresh = (page: number = 1) => {
     });
 };
 Refresh();
-const goPage = (id: number | string = 0) => {
-  router.push(`/financial-transaction/edit/${id}`);
+const goPage = (id: number | string = 0, page: string = "edit") => {
+  router.push(`/financial-transaction/${page}/${id}`);
+};
+const goInventoryPage = (documentId: number | string = 0, page: number) => {
+  router.push(`/inventory-${page == 1 ? "in" : "out"}/view/${documentId}`);
 };
 // Table data block
 
@@ -129,6 +139,16 @@ const tabValue = ref<number>(0);
       <template #item-actions="{ item }">
         <div class="flex justify-start">
           <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+          <EyeIcon
+            @click="goPage(item.id, 'view')"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
+          <FileSliders
+            @click="goInventoryPage(item.id, item.transactionTypeId)"
+            class="cursor-pointer ml-2"
+            :size="16"
+          />
         </div>
       </template>
     </y-table>

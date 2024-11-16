@@ -13,6 +13,7 @@ import Table from "@/components/custom/FORM/Table.vue";
 import Button from "@/components/custom/FORM/Button.vue";
 import Select from "@/components/custom/FORM/Select.vue";
 import Calendar from "@/components/custom/FORM/Calendar.vue";
+import List from "@/components/custom/FORM/List.vue";
 import ListItem from "@/components/custom/FORM/ListItem.vue";
 import CustomAlertDialog from "@/components/custom/Dialog/index.vue";
 export const buildApp = () => {
@@ -34,6 +35,7 @@ export const buildApp = () => {
   app.component("y-select", Select);
   app.component("y-calendar", Calendar);
   app.component("y-dialog", CustomAlertDialog);
+  app.component("list", List);
   app.component("list-item", ListItem);
 
   return { pinia, app, router };
