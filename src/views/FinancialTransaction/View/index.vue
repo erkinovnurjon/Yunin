@@ -10,7 +10,11 @@
       <list-item label="Transaction Source" :value="data.transactionSource" />
       <list-item label="Transaction Type" :value="data.transactionType" />
       <list-item label="Document Id" :value="data.documentId" />
-      <list-item label="Status" :value="data.status" />
+      <list-item
+        label="Status"
+        :statudId="data.statusId"
+        :value="data.status"
+      />
     </list>
   </page-wrapper>
 </template>
@@ -30,6 +34,7 @@ const data = ref<IFinancialTransaction>({
   paymentType: "",
   paymentTypeId: null,
   status: null,
+  statusId: null,
   title: "",
   transactionDate: "",
   transactionSource: "",

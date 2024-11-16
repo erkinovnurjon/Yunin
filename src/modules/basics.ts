@@ -78,6 +78,7 @@ export interface IFinancialTransaction {
   transactionSource: string | null;
   amount: number | null;
   paymentTypeId: number | null;
+  statusId: number | null;
   paymentType: string | null;
   status: string | null;
 }

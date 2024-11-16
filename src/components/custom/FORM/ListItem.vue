@@ -1,7 +1,11 @@
 <template>
   <div class="info-item">
     <span class="label">{{ label }}</span>
-    <span class="value">{{ formattedValue }}</span>
+    <span
+      class="value"
+      :class="`${statusId ? statusColors(statusId) : ''}  py-1 px-2 rounded-md`"
+      >{{ formattedValue }}</span
+    >
   </div>
 </template>
 
@@ -12,12 +16,14 @@ interface Props {
   label: string;
   value: string | number;
   isAmount?: boolean;
+  statusId?: null | number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   isAmount: false,
+  statusId: null,
 });
-const { parseNumber } = useGlobal();
+const { parseNumber, statusColors } = useGlobal();
 
 const formattedValue = computed(() => {
   if (props.isAmount && typeof props.value === "number") {

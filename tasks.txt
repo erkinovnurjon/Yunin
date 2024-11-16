@@ -10,6 +10,6 @@
 7. Sidebar mobilega moslash ---- DONE
 16.11.2024
 8. Go to document button for FinancialTransaction 
-8.1 View ---- DONE
-8.2 View by documentId ---- DONE
-9. Status color.
+    8.1 View ---- DONE
+    8.2 View by documentId ---- DONE
+9. Status color. ---- DONE

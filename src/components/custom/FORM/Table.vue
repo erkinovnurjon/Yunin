@@ -39,7 +39,18 @@
         <template v-else>
           <TableRow v-for="(item, i) in data" :key="`cell-${item.key}`">
             <template v-for="field in Fields" :key="`cell-field-${field.key}`">
-              <TableCell>
+              <TableCell v-if="field.key == 'status'">
+                <slot :name="`item-${field.key}`" :item="item">
+                  <span
+                    :class="`${statusColors(
+                      item.statusId
+                    )} py-1 px-2 rounded-md`"
+                  >
+                    {{ item[field.key] }}
+                  </span>
+                </slot>
+              </TableCell>
+              <TableCell v-else>
                 <slot :name="`item-${field.key}`" :item="item">
                   {{
                     field.isAmount
@@ -150,7 +161,7 @@ const props = withDefaults(defineProps<IProps>(), {
 
 const emits = defineEmits(["refresh"]);
 
-const { parseNumber } = useGlobal();
+const { parseNumber, statusColors } = useGlobal();
 const totalRowsCopy = toRef(props, "totalRows");
 const pageSizeCopy = toRef(props, "pageSize");
 const currentPage = ref(props.page);

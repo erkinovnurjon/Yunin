@@ -12,7 +12,11 @@
         :isAmount="true"
       />
       <list-item label="Quantitiy" :value="data.quantitiy" />
-      <list-item label="Status" :value="data.status" />
+      <list-item
+        label="Status"
+        :value="data.status"
+        :statusId="data.statusId"
+      />
     </div>
   </page-wrapper>
 </template>
