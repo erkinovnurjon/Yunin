@@ -18,9 +18,9 @@ import Profile from "./components/profile.vue";
 import { useRoute } from "vue-router";
 
 const routes = ref<Menu[]>(menus);
-const sidebarOpen = ref(true);
-const mobileOpen = ref(false);
-const sidebarsettimout = ref(true);
+const sidebarOpen = ref<any>(true);
+const mobileOpen = ref<boolean>(false);
+const sidebarsettimout = ref<boolean>(true);
 
 const toggleSidebar = () => {
   sidebarOpen.value = !sidebarOpen.value;

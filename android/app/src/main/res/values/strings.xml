@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Yunin</string>
+    <string name="title_activity_main">Yunin</string>
+    <string name="package_name">yunin.uz</string>
+    <string name="custom_url_scheme">yunin.uz</string>
+</resources>
