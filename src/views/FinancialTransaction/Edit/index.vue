@@ -107,6 +107,7 @@ const transaction = ref<IFinancialTransaction>({
   title: "",
   description: "",
   documentId: null,
+  id: null,
   transactionTypeId: null,
   transactionSourceId: null,
   amount: null,
