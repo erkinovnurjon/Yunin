@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from "vue";
+import { ref, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { Bell, Package2, Search, Menu as MenuIcon } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";

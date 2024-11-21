@@ -158,7 +158,7 @@ const tabValue = ref<number>(0);
       :page="filter.page"
       :pageSize="filter.pageSize"
       @refresh="Refresh"
-      :isLoading="loading"
+      :loading="loading"
     >
       <template #item-thumbnailId="{ item }">
         <img

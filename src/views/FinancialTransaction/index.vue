@@ -56,8 +56,10 @@ const filter = ref({
   search: "",
 });
 const totalRows = ref<number>(0);
+const loading = ref<boolean>(false);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
+  loading.value = true;
   FinancialTransactionService.GetList(filter.value)
     .then((res: any) => {
       data.value = res.data.rows;
@@ -70,6 +72,9 @@ const Refresh = (page: number = 1) => {
         variant: "destructive",
         duration: 1000,
       });
+    })
+    .finally(() => {
+      loading.value = false;
     });
 };
 Refresh();
@@ -134,6 +139,7 @@ const tabValue = ref<number>(0);
       :totalRows
       :page="filter.page"
       :pageSize="filter.pageSize"
+      :loading="loading"
       @refresh="Refresh"
     >
       <template #item-actions="{ item }">

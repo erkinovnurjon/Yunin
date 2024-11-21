@@ -15,13 +15,11 @@
         </TableRow>
       </TableHeader>
       <TableBody>
-        <TableRow v-if="isLoading">
-          <TableCell :colspan="Fields.length" class="h-24">
+        <TableRow v-if="loading">
+          <TableCell :colspan="Fields.length" rowspan="4" class="h-24">
             <div class="w-full h-full flex items-center justify-center">
-              <component :is="loader" v-if="loader" />
               <div
-                v-else
-                class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+                class="animate-spin rounded-full h-12 w-12 border-b-8 border-gray-900"
               ></div>
             </div>
           </TableCell>
@@ -77,14 +75,14 @@
         <Button
           variant="outline"
           @click="goToFirstPage"
-          :disabled="currentPage === 1 || isLoading"
+          :disabled="currentPage === 1 || loading"
         >
           <ChevronsLeft class="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
           @click="goToPrevPage"
-          :disabled="currentPage === 1 || isLoading"
+          :disabled="currentPage === 1 || loading"
         >
           <ChevronLeft class="h-4 w-4" />
         </Button>
@@ -94,7 +92,7 @@
           <Button
             @click="goToPage(page)"
             :variant="page === currentPage ? 'default' : 'outline'"
-            :disabled="isLoading"
+            :disabled="loading"
           >
             {{ page }}
           </Button>
@@ -103,14 +101,14 @@
         <Button
           variant="outline"
           @click="goToNextPage"
-          :disabled="currentPage === totalPages || isLoading"
+          :disabled="currentPage === totalPages || loading"
         >
           <ChevronRight class="h-4 w-4" />
         </Button>
         <Button
           variant="outline"
           @click="goToLastPage"
-          :disabled="currentPage === totalPages || isLoading"
+          :disabled="currentPage === totalPages || loading"
         >
           <ChevronsRight class="h-4 w-4" />
         </Button>
@@ -146,8 +144,7 @@ interface IProps {
   totalRows: number;
   page: number;
   pageSize: number;
-  isLoading?: boolean;
-  loader?: any;
+  loading?: boolean;
 }
 
 const props = withDefaults(defineProps<IProps>(), {
@@ -155,8 +152,7 @@ const props = withDefaults(defineProps<IProps>(), {
   page: 1,
   pageSize: 20,
   data: [],
-  isLoading: false,
-  loader: null,
+  loading: false,
 });
 
 const emits = defineEmits(["refresh"]);
@@ -178,7 +174,7 @@ watch(pageSizeCopy, () => {
 
 // Methods for pagination navigation
 const goToPage = (page: number) => {
-  if (page >= 1 && page <= totalPages.value && !props.isLoading) {
+  if (page >= 1 && page <= totalPages.value && !props.loading) {
     currentPage.value = page;
     emits("refresh", currentPage.value);
   }

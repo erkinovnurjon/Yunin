@@ -56,12 +56,21 @@ const filter = ref({
   search: "",
 });
 const totalRows = ref<number>(0);
+const loading = ref<boolean>(false);
 const Refresh = (page: number = 1) => {
+  loading.value = true;
   filter.value.page = page;
-  InventoryOutService.GetList(filter.value).then((res: any) => {
-    data.value = res.data.rows;
-    totalRows.value = res.data.total;
-  });
+  InventoryOutService.GetList(filter.value)
+    .then((res: any) => {
+      data.value = res.data.rows;
+      totalRows.value = res.data.total;
+    })
+    .catch((err: AxiosError) => {
+      console.error(err);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 Refresh();
 const goPage = (id: number | string = 0, page: string = "edit") => {
@@ -120,9 +129,7 @@ const openAcceptModal = (id: number) => {
 };
 
 const onAcceptDialogClose = () => {
-  console.log(222);
   Object.assign(acceptItem, { ...DEFAULT_VALUE });
-  console.log(333);
   acceptDialog.value = false;
 };
 
@@ -148,8 +155,6 @@ const onAcceptDialogSubmit = () => {
       })
       .finally(() => {
         acceptDialogLoading.value = false;
-        console.log(1111);
-
         onAcceptDialogClose();
       });
   }
@@ -205,6 +210,7 @@ const tabValue = ref<number>(0);
       :totalRows
       :page="filter.page"
       :pageSize="filter.pageSize"
+      :loading="loading"
       @refresh="Refresh"
     >
       <template #item-actions="{ item }">

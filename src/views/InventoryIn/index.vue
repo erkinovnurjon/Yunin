@@ -55,12 +55,20 @@ const filter = ref({
   search: "",
 });
 const totalRows = ref<number>(0);
+const loading = ref<boolean>(false);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
-  InventoryInService.GetList(filter.value).then((res: any) => {
-    data.value = res.data.rows;
-    totalRows.value = res.data.total;
-  });
+  InventoryInService.GetList(filter.value)
+    .then((res: any) => {
+      data.value = res.data.rows;
+      totalRows.value = res.data.total;
+    })
+    .catch((err: AxiosError) => {
+      console.error(err);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
 };
 Refresh();
 const goPage = (
@@ -211,6 +219,7 @@ const tabValue = ref<number>(0);
       :totalRows
       :page="filter.page"
       :pageSize="filter.pageSize"
+      :loading="loading"
       @refresh="Refresh"
     >
       <template #item-actions="{ item }">

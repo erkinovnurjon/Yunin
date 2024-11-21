@@ -5,6 +5,7 @@
     3.1 Manulaga kerakli api larni qo'shish ---- DONE
 4. FinancialTransaction CRUD ---- DONE
 5. Accept both Out and In  ---- DONE
+
 15.11.2024
 6. Inventory In and Out view page. ---- DONE
 7. Sidebar mobilega moslash ---- DONE
@@ -13,3 +14,8 @@
     8.1 View ---- DONE
     8.2 View by documentId ---- DONE
 9. Status color. ---- DONE
+
+21/11/2024
+1. Tablega default loading qo'yich -- DONE
+2. Loader barcha pagelar uchun.
+3. Pagination active page color for darkmode 
