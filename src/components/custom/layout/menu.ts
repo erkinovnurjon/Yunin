@@ -17,14 +17,14 @@ export const menus: Menu[] = [
     icon: Package2,
   },
   {
-    name: "InventoryIn",
+    name: "Inventory In",
     to: "/inventory-in",
     childrenVisible: false,
     children: [],
     icon: Package2,
   },
   {
-    name: "InventoryOut",
+    name: "Inventory Out",
     to: "/inventory-out",
     childrenVisible: false,
     children: [],

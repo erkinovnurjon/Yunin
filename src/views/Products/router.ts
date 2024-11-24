@@ -1,11 +1,12 @@
-import Products from "./index.vue";
-export const ProductRoutes = [
+import { type RouteRecordRaw } from "vue-router";
+export const ProductRoutes: RouteRecordRaw[] = [
   {
     name: "Products",
     path: "/products",
-    component: Products,
+    component: () => import("./index.vue"),
     meta: {
       pageTitle: "Products",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -26,6 +27,7 @@ export const ProductRoutes = [
     component: () => import("@/views/Products/Edit/id.vue"),
     meta: {
       pageTitle: "Product Edit",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",

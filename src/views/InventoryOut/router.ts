@@ -5,6 +5,7 @@ export const InventoryOut = [
     component: () => import("@/views/InventoryOut/index.vue"),
     meta: {
       pageTitle: "InventoryOut",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -25,6 +26,7 @@ export const InventoryOut = [
     component: () => import("@/views/InventoryOut/Edit/index.vue"),
     meta: {
       pageTitle: "Inventory Out Edit",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -50,6 +52,7 @@ export const InventoryOut = [
     component: () => import("@/views/InventoryOut/View/index.vue"),
     meta: {
       pageTitle: "Inventory Out View",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",

@@ -165,111 +165,113 @@ const tabValue = ref<number>(0);
 </script>
 
 <template>
-  <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
-    <Tabs v-model="tabValue" :default-value="0">
-      <TabsList>
-        <TabsTrigger :value="0"> All </TabsTrigger>
-        <TabsTrigger :value="1"> Active </TabsTrigger>
-        <TabsTrigger :value="2"> Draft </TabsTrigger>
-        <TabsTrigger :value="3"> Archived </TabsTrigger>
-      </TabsList>
-    </Tabs>
-    <div class="flex gap-2 mt-4 xl:mt-0">
-      <DropdownMenu class="mr-2">
-        <DropdownMenuTrigger as-child>
-          <y-button variant="outline" size="sm" class="h-7 gap-1">
-            <ListFilter class="h-3.5 w-3.5" />
-            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Filter
-            </span>
-          </y-button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Active</DropdownMenuItem>
-          <DropdownMenuItem>Draft</DropdownMenuItem>
-          <DropdownMenuItem>Archived</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <y-button size="sm" class="h-7 gap-1">
-        <File class="h-3.5 w-3.5" />Export</y-button
-      >
-    </div>
-  </div>
-  <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
-    <template #header>
-      <div class="flex justify-between items-center px-6">
-        <span class="text-3xl font-medium">Inventory Out</span>
-      </div>
-    </template>
-    <y-table
-      class="mt-6"
-      :Fields
-      :data="data"
-      :totalRows
-      :page="filter.page"
-      :pageSize="filter.pageSize"
-      :loading="loading"
-      @refresh="Refresh"
-    >
-      <template #item-actions="{ item }">
-        <div class="flex justify-center">
-          <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
-          <CheckCheck
-            @click="openAcceptModal(item.id)"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
-          <EyeIcon
-            @click="goPage(item.id, 'view')"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
-          <Trash
-            @click="openDeleteModal(item.id)"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
-        </div>
-      </template>
-    </y-table>
-    <y-dialog
-      title="Delete Document"
-      closeLabel="Cancel"
-      submitLabel="Delete"
-      v-model:open="deleteDialog"
-      @close="ondeleteDialogClose"
-      @submit="onDialogSubmit"
-    >
-      <template #body>
-        Do you want to delete Inventory Out with ID: {{ deleteItem }}
-      </template>
-    </y-dialog>
-    <y-dialog
-      title="Accept Inventory Out"
-      closeLabel="Cancel"
-      submitLabel="Accept"
-      :submitLoader="acceptDialogLoading"
-      v-model:open="acceptDialog"
-      @close="onAcceptDialogClose"
-      @submit="onAcceptDialogSubmit"
-    >
-      <template #body>
-        <span class="font-bold text-md"
-          >Do you want to accept Inventory Out Document with ID:
-          {{ acceptItem.id }}</span
+  <div>
+    <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
+      <Tabs v-model="tabValue" :default-value="0">
+        <TabsList>
+          <TabsTrigger :value="0"> All </TabsTrigger>
+          <TabsTrigger :value="1"> Active </TabsTrigger>
+          <TabsTrigger :value="2"> Draft </TabsTrigger>
+          <TabsTrigger :value="3"> Archived </TabsTrigger>
+        </TabsList>
+      </Tabs>
+      <div class="flex gap-2 mt-4 xl:mt-0">
+        <DropdownMenu class="mr-2">
+          <DropdownMenuTrigger as-child>
+            <y-button variant="outline" size="sm" class="h-7 gap-1">
+              <ListFilter class="h-3.5 w-3.5" />
+              <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Filter
+              </span>
+            </y-button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Active</DropdownMenuItem>
+            <DropdownMenuItem>Draft</DropdownMenuItem>
+            <DropdownMenuItem>Archived</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <y-button size="sm" class="h-7 gap-1">
+          <File class="h-3.5 w-3.5" />Export</y-button
         >
-        <div class="mt-4">
-          <Label>Message:</Label>
-          <Input
-            class="mt-2"
-            id="title"
-            type="text"
-            v-model="acceptItem.message"
-          />
+      </div>
+    </div>
+    <page-wrapper class="flex flex-col w-full py-6 mt-4">
+      <template #header>
+        <div class="flex justify-between items-center px-6">
+          <span class="text-3xl font-medium">Inventory Out</span>
         </div>
       </template>
-    </y-dialog>
-  </page-wrapper>
+      <y-table
+        class="mt-6"
+        :Fields
+        :data="data"
+        :totalRows
+        :page="filter.page"
+        :pageSize="filter.pageSize"
+        :loading="loading"
+        @refresh="Refresh"
+      >
+        <template #item-actions="{ item }">
+          <div class="flex justify-center">
+            <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+            <CheckCheck
+              @click="openAcceptModal(item.id)"
+              class="cursor-pointer ml-2"
+              :size="16"
+            />
+            <EyeIcon
+              @click="goPage(item.id, 'view')"
+              class="cursor-pointer ml-2"
+              :size="16"
+            />
+            <Trash
+              @click="openDeleteModal(item.id)"
+              class="cursor-pointer ml-2"
+              :size="16"
+            />
+          </div>
+        </template>
+      </y-table>
+      <y-dialog
+        title="Delete Document"
+        closeLabel="Cancel"
+        submitLabel="Delete"
+        v-model:open="deleteDialog"
+        @close="ondeleteDialogClose"
+        @submit="onDialogSubmit"
+      >
+        <template #body>
+          Do you want to delete Inventory Out with ID: {{ deleteItem }}
+        </template>
+      </y-dialog>
+      <y-dialog
+        title="Accept Inventory Out"
+        closeLabel="Cancel"
+        submitLabel="Accept"
+        :submitLoader="acceptDialogLoading"
+        v-model:open="acceptDialog"
+        @close="onAcceptDialogClose"
+        @submit="onAcceptDialogSubmit"
+      >
+        <template #body>
+          <span class="font-bold text-md"
+            >Do you want to accept Inventory Out Document with ID:
+            {{ acceptItem.id }}</span
+          >
+          <div class="mt-4">
+            <Label>Message:</Label>
+            <Input
+              class="mt-2"
+              id="title"
+              type="text"
+              v-model="acceptItem.message"
+            />
+          </div>
+        </template>
+      </y-dialog>
+    </page-wrapper>
+  </div>
 </template>

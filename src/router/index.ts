@@ -6,9 +6,9 @@ import {
 import Login from "@/components/custom/login/login.vue";
 import Settings from "@/views/settings.vue";
 import { ProductRoutes } from "@/views/Products/router";
-import { InventoryOut } from "@/views/InventoryOut/route";
-import { InventoryIn } from "@/views/InventoryIn/route";
-import { FinancialTransaction } from "@/views/FinancialTransaction/route";
+import { InventoryOut } from "@/views/InventoryOut/router";
+import { InventoryIn } from "@/views/InventoryIn/router";
+import { FinancialTransaction } from "@/views/FinancialTransaction/router";
 
 const routes: RouteRecordRaw[] = [
   {
@@ -16,9 +16,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/components/custom/layout/index.vue"),
     children: [
       {
+        path: "",
+        redirect: "/home",
+      },
+      {
         name: "Home",
         path: "/home",
-        component: () => import("@/views/home.vue"),
+        component: () => import("@/views/Dashboard.vue"),
       },
       ...ProductRoutes,
       ...InventoryIn,

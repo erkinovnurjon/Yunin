@@ -5,6 +5,7 @@ export const FinancialTransaction = [
     component: () => import("@/views/FinancialTransaction/index.vue"),
     meta: {
       pageTitle: "FinancialTransaction",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -25,6 +26,7 @@ export const FinancialTransaction = [
     component: () => import("@/views/FinancialTransaction/Edit/index.vue"),
     meta: {
       pageTitle: "Financial Transaction Edit",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -50,6 +52,7 @@ export const FinancialTransaction = [
     component: () => import("@/views/FinancialTransaction/View/index.vue"),
     meta: {
       pageTitle: "Financial Transaction View",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",

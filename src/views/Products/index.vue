@@ -109,87 +109,89 @@ const tabValue = ref<number>(0);
 </script>
 
 <template>
-  <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
-    <Tabs v-model="tabValue" :default-value="0">
-      <TabsList>
-        <TabsTrigger :value="0"> All </TabsTrigger>
-        <TabsTrigger :value="1"> Active </TabsTrigger>
-        <TabsTrigger :value="2"> Draft </TabsTrigger>
-        <TabsTrigger :value="3"> Archived </TabsTrigger>
-      </TabsList>
-    </Tabs>
-    <div class="flex gap-2 mt-4 xl:mt-0">
-      <DropdownMenu class="mr-2">
-        <DropdownMenuTrigger as-child>
-          <y-button variant="outline" size="sm" class="h-7 gap-1">
-            <ListFilter class="h-3.5 w-3.5" />
-            <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">
-              Filter
-            </span>
-          </y-button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>Filter by</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Active</DropdownMenuItem>
-          <DropdownMenuItem>Draft</DropdownMenuItem>
-          <DropdownMenuItem>Archived</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-      <y-button size="sm" class="h-7 gap-1">
-        <File class="h-3.5 w-3.5" />Export</y-button
-      >
-      <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
-        ><PlusCircle class="h-3.5 w-3.5" />Add Product</y-button
-      >
-    </div>
-  </div>
-  <page-wrapper class="flex flex-col w-full py-6 mt-4 h-full">
-    <template #header>
-      <div class="flex justify-between items-center px-6">
-        <span class="text-3xl font-medium">Products</span>
+  <div>
+    <div class="flex flex-col xl:flex-row xl:justify-between xl:items-center">
+      <Tabs v-model="tabValue" :default-value="0">
+        <TabsList>
+          <TabsTrigger :value="0"> All </TabsTrigger>
+          <TabsTrigger :value="1"> Active </TabsTrigger>
+          <TabsTrigger :value="2"> Draft </TabsTrigger>
+          <TabsTrigger :value="3"> Archived </TabsTrigger>
+        </TabsList>
+      </Tabs>
+      <div class="flex gap-2 mt-4 xl:mt-0">
+        <DropdownMenu class="mr-2">
+          <DropdownMenuTrigger as-child>
+            <y-button variant="outline" size="sm" class="h-7 gap-1">
+              <ListFilter class="h-3.5 w-3.5" />
+              <span class="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                Filter
+              </span>
+            </y-button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Filter by</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Active</DropdownMenuItem>
+            <DropdownMenuItem>Draft</DropdownMenuItem>
+            <DropdownMenuItem>Archived</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+        <y-button size="sm" class="h-7 gap-1">
+          <File class="h-3.5 w-3.5" />Export</y-button
+        >
+        <y-button @click="goPage(0)" size="sm" class="h-7 gap-1"
+          ><PlusCircle class="h-3.5 w-3.5" />Add Product</y-button
+        >
       </div>
-    </template>
-    <y-table
-      class="mt-6"
-      :Fields
-      :data="data"
-      :totalRows
-      :page="filter.page"
-      :pageSize="filter.pageSize"
-      @refresh="Refresh"
-      :loading="loading"
-    >
-      <template #item-thumbnailId="{ item }">
-        <img
-          class="aspect-square rounded-md object-cover"
-          width="64"
-          height="64"
-          :src="baseURL + `Product/DownloadFile/${item.thumbnailId}`"
-        />
-      </template>
-      <template #item-actions="{ item }">
-        <div class="flex justify-center">
-          <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
-          <Trash
-            @click="openDeleteModal(item.id)"
-            class="cursor-pointer ml-2"
-            :size="16"
-          />
+    </div>
+    <page-wrapper class="flex flex-col w-full py-6 !mt-4">
+      <template #header>
+        <div class="flex justify-between items-center px-6">
+          <span class="text-3xl font-medium">Products</span>
         </div>
       </template>
-    </y-table>
-    <y-dialog
-      title="Delete Account"
-      closeLabel="Cancel"
-      submitLabel="Delete"
-      v-model:open="deleteDialog"
-      @close="onDialogClose"
-      @submit="onDialogSubmit"
-    >
-      <template #body>
-        do you want to delete product {{ deleteItem }}
-      </template>
-    </y-dialog>
-  </page-wrapper>
+      <y-table
+        class="mt-6"
+        :Fields
+        :data="data"
+        :totalRows
+        :page="filter.page"
+        :pageSize="filter.pageSize"
+        @refresh="Refresh"
+        :loading="loading"
+      >
+        <template #item-thumbnailId="{ item }">
+          <img
+            class="aspect-square rounded-md object-cover"
+            width="64"
+            height="64"
+            :src="baseURL + `Product/DownloadFile/${item.thumbnailId}`"
+          />
+        </template>
+        <template #item-actions="{ item }">
+          <div class="flex justify-center">
+            <Edit @click="goPage(item.id)" class="cursor-pointer" :size="16" />
+            <Trash
+              @click="openDeleteModal(item.id)"
+              class="cursor-pointer ml-2"
+              :size="16"
+            />
+          </div>
+        </template>
+      </y-table>
+      <y-dialog
+        title="Delete Account"
+        closeLabel="Cancel"
+        submitLabel="Delete"
+        v-model:open="deleteDialog"
+        @close="onDialogClose"
+        @submit="onDialogSubmit"
+      >
+        <template #body>
+          do you want to delete product {{ deleteItem }}
+        </template>
+      </y-dialog>
+    </page-wrapper>
+  </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <Card>
+  <Card class="shadow-lg">
     <slot name="header"> </slot>
     <CardContent>
       <slot />

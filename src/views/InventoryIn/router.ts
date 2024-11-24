@@ -5,6 +5,7 @@ export const InventoryIn = [
     component: () => import("@/views/InventoryIn/index.vue"),
     meta: {
       pageTitle: "InventoryIn",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -25,6 +26,7 @@ export const InventoryIn = [
     component: () => import("@/views/InventoryIn/Edit/index.vue"),
     meta: {
       pageTitle: "Inventory In Edit",
+      transition: "slide-left",
       breadcrumbs: [
         {
           title: "Home",
@@ -46,6 +48,7 @@ export const InventoryIn = [
   },
   {
     path: "/inventory-in/view/:id",
+    transition: "slide-left",
     name: "InventoryInView",
     component: () => import("@/views/InventoryIn/View/index.vue"),
     meta: {

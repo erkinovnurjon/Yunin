@@ -18,4 +18,8 @@
 21/11/2024
 1. Tablega default loading qo'yich -- DONE
 2. Loader barcha pagelar uchun. -- DONE
-3. Pagination active page color for darkmode 
+
+24/11/2024
+1. Home and dashboard make 1 page. ---- DONE
+2. Page enter animation. ---- DONE
+3. Page-wrapper make shadows. ---- DONE

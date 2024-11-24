@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch } from "vue";
-import { useRoute } from "vue-router";
+// @ts-nocheck
+import { ref, onMounted, onUnmounted, watch, inject } from "vue";
+import { useRoute, RouterView } from "vue-router";
 import { Bell, Package2, Search, Menu as MenuIcon } from "lucide-vue-next";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,21 +14,23 @@ import {
 } from "@/components/ui/card";
 import Theme from "@/components/theme/theme.vue";
 import Profile from "./components/profile.vue";
-import type { Menu } from "@/modules/basics";
-import { menus } from "./menu";
-
-const routes = ref<Menu[]>(menus);
-const sidebarOpen = ref(false);
-const mobileOpen = ref(false);
-const isHovering = ref(false);
 
 const route = useRoute();
 
-const isDesktop = ref(window.innerWidth >= 1024);
-
-const updateIsDesktop = () => {
-  isDesktop.value = window.innerWidth >= 1024;
-};
+const {
+  sidebarOpen,
+  mobileOpen,
+  isHovering,
+  isDesktop,
+  routes,
+  toggleSidebar,
+  toggleChildren,
+  isCurrentRoute,
+  handleMouseEnter,
+  handleMouseLeave,
+  handleOutsideClick,
+  updateIsDesktop,
+} = inject<any>("layout");
 
 onMounted(() => {
   window.addEventListener("resize", updateIsDesktop);
@@ -44,53 +47,6 @@ onUnmounted(() => {
   window.removeEventListener("resize", updateIsDesktop);
 });
 
-watch(sidebarOpen, (newValue) => {
-  // Save sidebar state to localStorage
-  localStorage.setItem("sidebarOpen", JSON.stringify(newValue));
-});
-
-const toggleSidebar = () => {
-  if (isDesktop.value) {
-    sidebarOpen.value = !sidebarOpen.value;
-  } else {
-    mobileOpen.value = !mobileOpen.value;
-  }
-};
-
-const toggleChildren = (name: string) => {
-  const route = routes.value.find((item) => item.name === name);
-  if (route) {
-    route.childrenVisible = !route.childrenVisible;
-  }
-};
-
-const isCurrentRoute = (path: string) => route.path === path;
-
-const handleMouseEnter = () => {
-  if (isDesktop.value && !sidebarOpen.value) {
-    isHovering.value = true;
-  }
-};
-
-const handleMouseLeave = () => {
-  if (isDesktop.value && !sidebarOpen.value) {
-    isHovering.value = false;
-  }
-};
-
-// Close sidebar when clicking outside on mobile/tablet
-const handleOutsideClick = (event: MouseEvent) => {
-  const sidebar = document.getElementById("sidebar");
-  if (
-    !isDesktop.value &&
-    mobileOpen.value &&
-    sidebar &&
-    !sidebar.contains(event.target as Node)
-  ) {
-    mobileOpen.value = false;
-  }
-};
-
 // Add event listener for outside clicks
 onMounted(() => {
   window.addEventListener("click", handleOutsideClick);
@@ -102,12 +58,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex h-screen w-full overflow-hidden">
-    <!-- Sidebar -->
+  <div class="flex w-full overflow-hidden">
     <aside
       id="sidebar"
       :class="[
-        'fixed inset-y-0 left-0 z-50 flex flex-col transition-all duration-300 ease-in-out',
+        'fixed inset-y-0 left-0 left-sidebar z-50 flex flex-col transition-all duration-300 ease-in-out ',
         isDesktop
           ? (isHovering && !sidebarOpen) || sidebarOpen
             ? 'w-64'
@@ -220,53 +175,6 @@ onUnmounted(() => {
         </div>
       </div>
     </aside>
-
-    <!-- Main Content -->
-    <div class="flex flex-col flex-1 w-full">
-      <header
-        class="sticky top-0 z-40 flex h-14 items-center gap-4 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4"
-      >
-        <!-- Sidebar Toggle Button -->
-        <Button
-          @click="toggleSidebar"
-          variant="ghost"
-          size="icon"
-          :class="sidebarOpen ? 'ml-[256px]' : 'ml-[63px]'"
-        >
-          <MenuIcon class="h-5 w-5" />
-          <span class="sr-only">Toggle sidebar</span>
-        </Button>
-
-        <div class="flex-1">
-          <form>
-            <div class="relative">
-              <Search
-                class="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground"
-              />
-              <Input
-                type="search"
-                placeholder="Search products..."
-                class="w-full appearance-none bg-background pl-8 shadow-none md:w-2/3 lg:w-1/3"
-              />
-            </div>
-          </form>
-        </div>
-
-        <!-- Theme and Profile -->
-        <div class="flex gap-2">
-          <Theme />
-          <Profile />
-        </div>
-      </header>
-
-      <!-- Main Content Area -->
-      <main
-        :class="sidebarOpen ? 'ml-[256px]' : 'ml-[63px]'"
-        class="flex-1 overflow-y-auto bg-muted/50 p-4"
-      >
-        <slot></slot>
-      </main>
-    </div>
   </div>
 </template>
 
@@ -284,5 +192,9 @@ onUnmounted(() => {
 
 .scrollbar-thumb-muted-foreground\/25:hover {
   scrollbar-color: rgba(var(--muted-foreground), 0.25) transparent;
+}
+
+.left-sidebar {
+  box-shadow: -15px 1px 20px rgba(0, 0, 0, 0.9);
 }
 </style>
