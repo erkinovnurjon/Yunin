@@ -58,6 +58,7 @@ const totalRows = ref<number>(0);
 const loading = ref<boolean>(false);
 const Refresh = (page: number = 1) => {
   filter.value.page = page;
+  loading.value = true;
   InventoryInService.GetList(filter.value)
     .then((res: any) => {
       data.value = res.data.rows;

@@ -17,5 +17,5 @@
 
 21/11/2024
 1. Tablega default loading qo'yich -- DONE
-2. Loader barcha pagelar uchun.
+2. Loader barcha pagelar uchun. -- DONE
 3. Pagination active page color for darkmode 
