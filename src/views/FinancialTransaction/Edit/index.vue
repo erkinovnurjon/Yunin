@@ -1,83 +1,85 @@
 <template>
-  <div class="flex justify-between items-center">
-    <div class="flex justify-start items-center">
-      <y-button @click="() => router.back()" variant="outline" size="xs">
-        <ChevronLeft />
-      </y-button>
-      <h1 class="font-medium ml-4">F. Transaction Controller</h1>
+  <div>
+    <div class="flex justify-between items-center">
+      <div class="flex justify-start items-center">
+        <y-button @click="() => router.back()" variant="outline" size="xs">
+          <ChevronLeft />
+        </y-button>
+        <h1 class="font-medium ml-4">F. Transaction Controller</h1>
+      </div>
+      <div>
+        <y-button size="sm" @click="SaveTransaction">
+          Save F. Transaction
+        </y-button>
+      </div>
     </div>
-    <div>
-      <y-button size="sm" @click="SaveTransaction">
-        Save F. Transaction
-      </y-button>
+    <div class="w-full">
+      <page-wrapper>
+        <CardHeader class="px-0">
+          <CardTitle>Transaction Details</CardTitle>
+          <CardDescription
+            >Enter Transaction name and description.</CardDescription
+          >
+        </CardHeader>
+        <div class="grid w-full items-center gap-1.5">
+          <Label for="title">Transaction name</Label>
+          <Input id="title" type="text" v-model="transaction.title" />
+        </div>
+        <div class="grid w-full gap-1.5 mt-4">
+          <Label for="description">Transaction description</Label>
+          <Textarea
+            id="description"
+            placeholder="Transaction description"
+            v-model="transaction.description"
+          />
+        </div>
+        <div class="grid w-full gap-1.5 mt-4">
+          <Label for="description">Transaction Date</Label>
+          <y-calendar
+            id="transaction_date"
+            placeholder="Transaction Date"
+            :value="transaction.transactionDate"
+            v-model="transaction.transactionDate"
+            @update:value="(e: string) => transaction.transactionDate = e"
+          />
+        </div>
+      </page-wrapper>
+      <page-wrapper class="mt-6">
+        <CardHeader class="px-0">
+          <CardTitle>Stock</CardTitle>
+          <CardDescription>Enter Transaction Details.</CardDescription>
+        </CardHeader>
+        <div class="flex flex-wrap items-center gap-8">
+          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+            <y-select
+              label="Payment Type"
+              v-model="transaction.paymentTypeId"
+              :data="paymentTypeSelectList"
+            />
+          </div>
+          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+            <y-select
+              label="Transaction Type"
+              v-model="transaction.transactionTypeId"
+              :data="transactionTypeSelectList"
+            />
+          </div>
+          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+            <y-select
+              label="Transaction Source"
+              v-model="transaction.transactionSourceId"
+              :data="transactionSourceSelectList"
+            />
+          </div>
+          <div
+            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+          >
+            <Label for="amount">Amount</Label>
+            <Input id="amount" type="number" v-model="transaction.amount" />
+          </div>
+        </div>
+      </page-wrapper>
     </div>
-  </div>
-  <div class="w-full">
-    <page-wrapper>
-      <CardHeader class="px-0">
-        <CardTitle>Transaction Details</CardTitle>
-        <CardDescription
-          >Enter Transaction name and description.</CardDescription
-        >
-      </CardHeader>
-      <div class="grid w-full items-center gap-1.5">
-        <Label for="title">Transaction name</Label>
-        <Input id="title" type="text" v-model="transaction.title" />
-      </div>
-      <div class="grid w-full gap-1.5 mt-4">
-        <Label for="description">Transaction description</Label>
-        <Textarea
-          id="description"
-          placeholder="Transaction description"
-          v-model="transaction.description"
-        />
-      </div>
-      <div class="grid w-full gap-1.5 mt-4">
-        <Label for="description">Transaction Date</Label>
-        <y-calendar
-          id="transaction_date"
-          placeholder="Transaction Date"
-          :value="transaction.transactionDate"
-          v-model="transaction.transactionDate"
-          @update:value="(e: string) => transaction.transactionDate = e"
-        />
-      </div>
-    </page-wrapper>
-    <page-wrapper class="mt-6">
-      <CardHeader class="px-0">
-        <CardTitle>Stock</CardTitle>
-        <CardDescription>Enter Transaction Details.</CardDescription>
-      </CardHeader>
-      <div class="flex flex-wrap items-center gap-8">
-        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-          <y-select
-            label="Payment Type"
-            v-model="transaction.paymentTypeId"
-            :data="paymentTypeSelectList"
-          />
-        </div>
-        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-          <y-select
-            label="Transaction Type"
-            v-model="transaction.transactionTypeId"
-            :data="transactionTypeSelectList"
-          />
-        </div>
-        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-          <y-select
-            label="Transaction Source"
-            v-model="transaction.transactionSourceId"
-            :data="transactionSourceSelectList"
-          />
-        </div>
-        <div
-          class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-        >
-          <Label for="amount">Amount</Label>
-          <Input id="amount" type="number" v-model="transaction.amount" />
-        </div>
-      </div>
-    </page-wrapper>
   </div>
 </template>
 

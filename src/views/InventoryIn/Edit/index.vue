@@ -1,75 +1,79 @@
 <template>
-  <div class="flex justify-between items-center">
-    <div class="flex justify-start items-center">
-      <y-button @click="() => router.back()" variant="outline" size="xs">
-        <ChevronLeft />
-      </y-button>
-      <h1 class="font-medium ml-4">Inventory Controller</h1>
+  <div>
+    <div class="flex justify-between items-center">
+      <div class="flex justify-start items-center">
+        <y-button @click="() => router.back()" variant="outline" size="xs">
+          <ChevronLeft />
+        </y-button>
+        <h1 class="font-medium ml-4">Inventory Controller</h1>
+      </div>
+      <div>
+        <y-button size="sm" @click="SaveInventory"> Save Inventory </y-button>
+      </div>
     </div>
-    <div>
-      <y-button size="sm" @click="SaveInventory"> Save Inventory </y-button>
-    </div>
-  </div>
-  <div class="w-full">
-    <page-wrapper>
-      <CardHeader class="px-0">
-        <CardTitle>Inventory Details</CardTitle>
-        <CardDescription>Enter Inventory name and description.</CardDescription>
-      </CardHeader>
-      <div class="grid w-full items-center gap-1.5">
-        <Label for="title">Inventory name</Label>
-        <Input id="title" type="text" v-model="inventory.title" />
-      </div>
-      <div class="grid w-full gap-1.5 mt-4">
-        <Label for="description">Inventory description</Label>
-        <Textarea
-          id="description"
-          placeholder="Inventory description"
-          v-model="inventory.description"
-        />
-      </div>
-      <div class="grid w-full gap-1.5 mt-4">
-        <Label for="description">In Date</Label>
-        <y-calendar
-          id="in_date"
-          placeholder="In Date"
-          :value="inventory.inDate"
-          v-model="inventory.inDate"
-          @update:value="(e: string) => inventory.inDate = e"
-        />
-      </div>
-    </page-wrapper>
-    <page-wrapper class="mt-6">
-      <CardHeader class="px-0">
-        <CardTitle>Stock</CardTitle>
-        <CardDescription>Enter Inventory price and size.</CardDescription>
-      </CardHeader>
-      <div class="flex flex-wrap items-center gap-8">
-        <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-          <y-select
-            label="Product"
-            v-model="inventory.productId"
-            :data="productsSelectList"
+    <div class="w-full">
+      <page-wrapper>
+        <CardHeader class="px-0">
+          <CardTitle>Inventory Details</CardTitle>
+          <CardDescription
+            >Enter Inventory name and description.</CardDescription
+          >
+        </CardHeader>
+        <div class="grid w-full items-center gap-1.5">
+          <Label for="title">Inventory name</Label>
+          <Input id="title" type="text" v-model="inventory.title" />
+        </div>
+        <div class="grid w-full gap-1.5 mt-4">
+          <Label for="description">Inventory description</Label>
+          <Textarea
+            id="description"
+            placeholder="Inventory description"
+            v-model="inventory.description"
           />
         </div>
-        <div
-          class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-        >
-          <Label for="quantitiy">Quantitiy</Label>
-          <Input id="quantitiy" type="number" v-model="inventory.quantitiy" />
-        </div>
-        <div
-          class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-        >
-          <Label for="pricePerProduct">Price Per Product</Label>
-          <Input
-            id="pricePerProduct"
-            type="number"
-            v-model="inventory.pricePerProduct"
+        <div class="grid w-full gap-1.5 mt-4">
+          <Label for="description">In Date</Label>
+          <y-calendar
+            id="in_date"
+            placeholder="In Date"
+            :value="inventory.inDate"
+            v-model="inventory.inDate"
+            @update:value="(e: string) => inventory.inDate = e"
           />
         </div>
-      </div>
-    </page-wrapper>
+      </page-wrapper>
+      <page-wrapper class="mt-6">
+        <CardHeader class="px-0">
+          <CardTitle>Stock</CardTitle>
+          <CardDescription>Enter Inventory price and size.</CardDescription>
+        </CardHeader>
+        <div class="flex flex-wrap items-center gap-8">
+          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+            <y-select
+              label="Product"
+              v-model="inventory.productId"
+              :data="productsSelectList"
+            />
+          </div>
+          <div
+            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+          >
+            <Label for="quantitiy">Quantitiy</Label>
+            <Input id="quantitiy" type="number" v-model="inventory.quantitiy" />
+          </div>
+          <div
+            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+          >
+            <Label for="pricePerProduct">Price Per Product</Label>
+            <Input
+              id="pricePerProduct"
+              type="number"
+              v-model="inventory.pricePerProduct"
+            />
+          </div>
+        </div>
+      </page-wrapper>
+    </div>
   </div>
 </template>
 

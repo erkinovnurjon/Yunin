@@ -1,134 +1,142 @@
 <template>
-  <div class="flex justify-between items-center">
-    <div class="flex justify-start items-center">
-      <y-button @click="() => router.back()" variant="destructive" size="icon">
-        <ChevronLeft />
-      </y-button>
-      <h1 class="font-medium ml-4">Product Controller</h1>
+  <div>
+    <div class="flex justify-between items-center">
+      <div class="flex justify-start items-center">
+        <y-button
+          @click="() => router.back()"
+          variant="destructive"
+          size="icon"
+        >
+          <ChevronLeft />
+        </y-button>
+        <h1 class="font-medium ml-4">Product Controller</h1>
+      </div>
+      <div>
+        <y-button size="sm" @click="SaveProduct"> Save Product </y-button>
+      </div>
     </div>
-    <div>
-      <y-button size="sm" @click="SaveProduct"> Save Product </y-button>
-    </div>
+    <main class="flex flex-col md:flex-row justify-between mt-6 gap-10">
+      <div class="w-full md:w-8/12">
+        <page-wrapper>
+          <CardHeader class="px-0">
+            <CardTitle>Product Details</CardTitle>
+            <CardDescription
+              >Enter Product name and description.</CardDescription
+            >
+          </CardHeader>
+          <div class="grid w-full items-center gap-1.5">
+            <Label for="title">Product name</Label>
+            <Input id="title" type="text" v-model="product.title" />
+          </div>
+          <div class="grid w-full gap-1.5 mt-4">
+            <Label for="description">Product description</Label>
+            <Textarea
+              id="description"
+              placeholder="Product description"
+              v-model="product.description"
+            />
+          </div>
+        </page-wrapper>
+        <page-wrapper class="mt-6">
+          <CardHeader class="px-0">
+            <CardTitle>Stock</CardTitle>
+            <CardDescription>Enter product price and size.</CardDescription>
+          </CardHeader>
+          <div class="flex flex-wrap items-center gap-8">
+            <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+              <Label for="acquiredPrice">Acquired Price</Label>
+              <Input
+                id="acquiredPrice"
+                type="number"
+                v-model="product.acquiredPrice"
+              />
+            </div>
+            <div
+              class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+            >
+              <Label for="salePrice">Sale Price</Label>
+              <Input id="salePrice" type="number" v-model="product.salePrice" />
+            </div>
+            <div
+              class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+            >
+              <Label for="size">Size</Label>
+              <Input id="size" type="text" v-model="product.size" />
+            </div>
+          </div>
+        </page-wrapper>
+        <page-wrapper class="mt-6">
+          <CardHeader class="px-0">
+            <CardTitle>Stock</CardTitle>
+            <CardDescription>Enter product price and size.</CardDescription>
+          </CardHeader>
+          <div class="flex flex-wrap items-center gap-8">
+            <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
+              <y-select
+                label="Contragent"
+                v-model="product.contragentId"
+                :data="contragentList"
+              />
+            </div>
+            <div
+              class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+            >
+              <y-select
+                label="Product Type"
+                v-model="product.productTypeId"
+                :data="productTypeList"
+              />
+            </div>
+            <div
+              class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
+            >
+              <y-select
+                label="Product Colour"
+                v-model="product.productColourId"
+                :data="productColourList"
+              />
+            </div>
+          </div>
+        </page-wrapper>
+      </div>
+      <div class="w-full md:w-4/12">
+        <page-wrapper class="overflow-hidden">
+          <CardHeader class="px-0">
+            <CardTitle>Product image</CardTitle>
+            <CardDescription> Click to Upload Image </CardDescription>
+          </CardHeader>
+          <div class="flex relative">
+            <!-- Display the selected or placeholder image -->
+            <img
+              alt="Product image"
+              class="aspect-square w-full rounded-md object-cover"
+              height="300"
+              :src="
+                product.id
+                  ? baseURL + `Product/DownloadFile/${product.thumbnailId}`
+                  : imageSrc
+              "
+              ref="imageSrc"
+              width="300"
+            />
+            <!-- Hidden file input for image upload -->
+            <input
+              type="file"
+              accept="image/*"
+              ref="fileInput"
+              @change="onFileChange"
+              style="visibility: hidden; position: absolute"
+            />
+            <!-- Overlay to trigger file upload on click -->
+            <div
+              class="absolute inset-0 cursor-pointer bg-transparent"
+              @click="triggerFileInput"
+            ></div>
+          </div>
+        </page-wrapper>
+      </div>
+    </main>
   </div>
-  <main class="flex flex-col md:flex-row justify-between mt-6 gap-10">
-    <div class="w-full md:w-8/12">
-      <page-wrapper>
-        <CardHeader class="px-0">
-          <CardTitle>Product Details</CardTitle>
-          <CardDescription>Enter Product name and description.</CardDescription>
-        </CardHeader>
-        <div class="grid w-full items-center gap-1.5">
-          <Label for="title">Product name</Label>
-          <Input id="title" type="text" v-model="product.title" />
-        </div>
-        <div class="grid w-full gap-1.5 mt-4">
-          <Label for="description">Product description</Label>
-          <Textarea
-            id="description"
-            placeholder="Product description"
-            v-model="product.description"
-          />
-        </div>
-      </page-wrapper>
-      <page-wrapper class="mt-6">
-        <CardHeader class="px-0">
-          <CardTitle>Stock</CardTitle>
-          <CardDescription>Enter product price and size.</CardDescription>
-        </CardHeader>
-        <div class="flex flex-wrap items-center gap-8">
-          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-            <Label for="acquiredPrice">Acquired Price</Label>
-            <Input
-              id="acquiredPrice"
-              type="number"
-              v-model="product.acquiredPrice"
-            />
-          </div>
-          <div
-            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-          >
-            <Label for="salePrice">Sale Price</Label>
-            <Input id="salePrice" type="number" v-model="product.salePrice" />
-          </div>
-          <div
-            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-          >
-            <Label for="size">Size</Label>
-            <Input id="size" type="text" v-model="product.size" />
-          </div>
-        </div>
-      </page-wrapper>
-      <page-wrapper class="mt-6">
-        <CardHeader class="px-0">
-          <CardTitle>Stock</CardTitle>
-          <CardDescription>Enter product price and size.</CardDescription>
-        </CardHeader>
-        <div class="flex flex-wrap items-center gap-8">
-          <div class="flex flex-col w-full md:w-[30%] items-start gap-1.5">
-            <y-select
-              label="Contragent"
-              v-model="product.contragentId"
-              :data="contragentList"
-            />
-          </div>
-          <div
-            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-          >
-            <y-select
-              label="Product Type"
-              v-model="product.productTypeId"
-              :data="productTypeList"
-            />
-          </div>
-          <div
-            class="flex flex-col w-full md:w-[30%] items-start gap-1.5 md:mt-0 mt-4"
-          >
-            <y-select
-              label="Product Colour"
-              v-model="product.productColourId"
-              :data="productColourList"
-            />
-          </div>
-        </div>
-      </page-wrapper>
-    </div>
-    <div class="w-full md:w-4/12">
-      <page-wrapper class="overflow-hidden">
-        <CardHeader class="px-0">
-          <CardTitle>Product image</CardTitle>
-          <CardDescription> Click to Upload Image </CardDescription>
-        </CardHeader>
-        <div class="flex relative">
-          <!-- Display the selected or placeholder image -->
-          <img
-            alt="Product image"
-            class="aspect-square w-full rounded-md object-cover"
-            height="300"
-            :src="
-              product.id
-                ? baseURL + `Product/DownloadFile/${product.thumbnailId}`
-                : imageSrc
-            "
-            ref="imageSrc"
-            width="300"
-          />
-          <!-- Hidden file input for image upload -->
-          <input
-            type="file"
-            accept="image/*"
-            ref="fileInput"
-            @change="onFileChange"
-            style="visibility: hidden; position: absolute"
-          />
-          <!-- Overlay to trigger file upload on click -->
-          <div
-            class="absolute inset-0 cursor-pointer bg-transparent"
-            @click="triggerFileInput"
-          ></div>
-        </div>
-      </page-wrapper>
-    </div>
-  </main>
 </template>
 
 <script setup lang="ts">
